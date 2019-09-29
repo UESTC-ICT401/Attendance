@@ -1,0 +1,5 @@
+Sat, 28 Sep 2019 14:42:18 log_output.py[line:27] DEBUG logger debug message
+Sat, 28 Sep 2019 14:42:18 log_output.py[line:28] INFO logger info message
+Sat, 28 Sep 2019 14:42:18 log_output.py[line:29] WARNING logger warning message
+Sat, 28 Sep 2019 14:42:18 log_output.py[line:30] ERROR logger error message
+Sat, 28 Sep 2019 14:42:18 log_output.py[line:31] CRITICAL logger critical message
