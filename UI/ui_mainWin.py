@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.gridLayout_widget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 705, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 705, 26))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
@@ -35,7 +35,10 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.actionregister = QtWidgets.QAction(MainWindow)
         self.actionregister.setObjectName("actionregister")
+        self.actionCOM = QtWidgets.QAction(MainWindow)
+        self.actionCOM.setObjectName("actionCOM")
         self.menu.addAction(self.actionregister)
+        self.menu.addAction(self.actionCOM)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
@@ -48,4 +51,5 @@ class Ui_MainWindow(object):
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.menu_2.setTitle(_translate("MainWindow", "帮助"))
         self.actionregister.setText(_translate("MainWindow", "register"))
+        self.actionCOM.setText(_translate("MainWindow", "COM"))
 

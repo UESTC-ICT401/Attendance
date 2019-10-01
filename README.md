@@ -25,6 +25,8 @@
 
 2019/9/26 22:30:创建Repository，已完成串口读取程序，Class student、Class sql_operate以及最初的UI框架。
 
+2019/10/1 22:36:实现选择串口，读取RFID，并且学生注册插入数据库。Notice：修改了郑文student_register类，添加了必需的信号连接以及回调函数。喝了酒，今天到此结束。
+
 
 
 

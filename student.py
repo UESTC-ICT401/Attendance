@@ -20,17 +20,14 @@ class Student(object):
         self.stu_dict['permission']=permission
         self.stu_dict['registered_course'] = registered_course
 
-    def get_stu_info(self,key):
-        return self.stu_dict[key]
+    def __getitem__(self, item):
+        return self.stu_dict[item]
 
     def __str__(self):
-        string = "\n" + "stuID:"+ str(self.stu_dict['stuID']) + "\n" + \
-            "name:"+ str(self.stu_dict['name']) + "\n" + \
-            "team:"+ str(self.stu_dict['team']) + "\n" + \
-            "rfid:"+ str(self.stu_dict['rfid']) + "\n" + \
-            "permission:"+ str(self.stu_dict['permission']) + "\n" + \
-            "registered_course:"+ str(self.stu_dict['registered_course']) + "\n"
-
+        string="\nstuID:{0}\nname:{1}\nteam:{2}\nrfid:{3}\npermission:{4}\nregistered_course:\n".format(
+            self.stu_dict['stuID'],self.stu_dict['name'],self.stu_dict['team'],self.stu_dict['rfid'],
+            self.stu_dict['permission'],self.stu_dict['registered_course']
+        )
         return string
 
 

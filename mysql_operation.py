@@ -30,17 +30,19 @@ class SqlOperate(object):
     __searchcmd__="SELECT * FROM {table_name}  WHERE {conditions}"
     __updatecmd__=""
 
-    def __init__(self):
-        self.__connect_sql()
-    def __connect_sql(self):
+    def connect_sql(self):
         """
         connect mysql database
         :return:
         """
         try:
             self.db = pymysql.connect(**self.__connectcmd__) #establish connection
+            msg="连接成功"
+            return msg,self.db
         except Exception as e:
             self.db =None
+            return e,self.db
+
 
     def get_db(self):
         return self.db
@@ -76,6 +78,7 @@ class SqlOperate(object):
             cursor = self.db.cursor()
             values =self.dict2sql(columns_dict)
             sql =self.__insertcmd__.format(table_name=table_name,values=values)
+            print(sql)
             cursor.execute(sql)
             self.db.commit()
             threadLock.release()# release the lock
@@ -120,7 +123,7 @@ class StuInfoOperate(SqlOperate):
         if db is not None:    #actually, if we didn't create a db object,we need create a new by calling sql_operate.__init__()
             self.db=db
         else:
-            super().__init__()
+            super().connect_sql()
         self.stu =stu
 
     def insert_stu(self):
@@ -158,7 +161,7 @@ class RecordOperate(SqlOperate):
         if db is not None:    #actually, if we didn't create a db object,we need create a new by calling sql_operate.__init__()
             self.db=db
         else:
-            super().__init__()
+            super().connect_sql()
         self.stu =stu
         self.record_dict={'index':0,'stuID':0,'name':0,'team':0,'time':0,'islate':0}
     def get_time(self):
@@ -224,11 +227,11 @@ class RecordOperate(SqlOperate):
 
 
 
-stu=Student()
-stu_info_operate=StuInfoOperate(stu)
-stu_info_operate.search_stu('201922011425')
-db=stu_info_operate.get_db()
-my =RecordOperate(stu,db)
-msg=my.insert_record(islate=0)
-msg,mysql_data,all_fileds=my.search_record(team='程建')
-my.mysql2excel(mysql_data,all_fileds)
+# stu=Student()
+# stu_info_operate=StuInfoOperate(stu)
+# stu_info_operate.search_stu('201922011425')
+# db=stu_info_operate.get_db()
+# my =RecordOperate(stu,db)
+# msg=my.insert_record(islate=0)
+# msg,mysql_data,all_fileds=my.search_record(team='程建')
+# my.mysql2excel(mysql_data,all_fileds)

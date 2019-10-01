@@ -9,16 +9,18 @@ from student import Student
 from PyQt5 import QtGui
 from log_output import Mylog
 
-log = Mylog("log/student_register.txt")
+
 
 class student_register(QWidget,Ui_student_register):
-    def __init__(self):
+    def __init__(self,log,target=None,args=None):
         super(student_register, self).__init__()
         self.setupUi(self)
         self.init_layout()
         self.student = None
-
-        with open("./css/register.css","r") as css_file:
+        self.log=log
+        self.target=target
+        self.args=args
+        with open("./UI/css/register.css","r") as css_file:
             self.setStyleSheet(css_file.read())
 
     def init_layout(self):
@@ -29,14 +31,11 @@ class student_register(QWidget,Ui_student_register):
         #                          "QPushButton:pressed{background-color:rgb(180,180,180);border: None;}" #按下时的样式
         # )
         self.pushButton_register.setFont(QtGui.QFont('Microsoft YaHei', 20))
-
         self.tableWidget_class_check.setColumnCount(3)
-
         self.tableWidget_class_check.verticalHeader().setVisible(False)
         self.tableWidget_class_check.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_class_check.setColumnWidth(0,100)
         self.tableWidget_class_check.setColumnWidth(1,200)
-
         self.tableWidget_class_check.setHorizontalHeaderLabels(["选择","课程名","操作"])
 
         self.comboBox_permission.addItem("5")
@@ -50,19 +49,17 @@ class student_register(QWidget,Ui_student_register):
         student_name = self.lineEdit_student_name.text()
         student_number = self.lineEdit_student_number.text()
         student_IdCard = self.lineEdit_student_IdCard.text()
-        comboBox_permission = 5 - self.comboBox_permission.currentIndex()
+        student_permission = self.comboBox_permission.currentText()
         team = self.comboBox_team.currentText()
-
-        course_checked = []
+        course_checked = '0'
         tablewidget_len = self.tableWidget_class_check.rowCount() - 1
 
         for i in range(tablewidget_len):
             if self.tableWidget_class_check.cellWidget(i,0).isChecked():
                 course_checked.append(i)
-
-
-        self.student = Student(student_number,student_name,team,student_IdCard,comboBox_permission,course_checked)
-        log.info_out(self.student)
+        args = Student(student_number,student_name,team,student_permission,student_IdCard,course_checked)
+        self.log.info_out(args)
+        self.target(args)
 
     def load_course_info(self, list_course):
         """
@@ -100,7 +97,18 @@ class student_register(QWidget,Ui_student_register):
         :return: student info
         """
         if self.student == None:
-            QMessageBox.warning(self, "waring", "学生信息填写不完整")
+            QMessageBox.warning(self, "warning", "学生信息填写不完整")
             return
-
         return self.student
+
+    def connect_signal_slot(self):
+        """
+        connect qt signal and slot
+        :return:
+        """
+        pass
+
+    def read_rfid(self,rfid):
+        # print(msg)
+        self.lineEdit_student_IdCard.setText(rfid)
+

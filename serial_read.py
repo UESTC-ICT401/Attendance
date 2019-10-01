@@ -7,7 +7,6 @@
 """
 import serial
 import threading
-import queue
 import serial.tools.list_ports
 
 class Serial(threading.Thread):
@@ -18,9 +17,10 @@ class Serial(threading.Thread):
     @Attributes:
     q:the queue of recv
     """
-    def __init__(self,q):
+    def __init__(self,target=None,args=None):
         threading.Thread.__init__(self)
-        self.q = q
+        self.target=target
+        self.args  =args
 
     def search_port(self):
         """
@@ -38,6 +38,7 @@ class Serial(threading.Thread):
         :param timeout: default = 0
         :return str.format(ser):the describ of the port
         """
+        self.args=''
         self.ser = serial.Serial(port_name, bps, timeout=timeout)
         str='specification of serial port：{0}'
         return self.ser,str.format(self.ser)
@@ -47,10 +48,22 @@ class Serial(threading.Thread):
         the thread of listening
         :return:
         """
+        count = 0
         while True:
             try:
-                msg = self.ser.read().hex()
-                self.q.put(msg)
+                self.args+= self.ser.read().hex()
+                count+=1
+                if(count%12==0):
+                    count=0
+                    msg = ''
+                    if self.target is not None:
+                        self.target(self.args)
             except Exception as e:
-                return e
+                pass
 
+
+
+# ser= MySerial()
+# msg,info=ser.port_init('COM3')
+# print(info)
+# ser.start()
