@@ -25,8 +25,8 @@ class Student(object):
 
     def __str__(self):
         string="\nstuID:{0}\nname:{1}\nteam:{2}\nrfid:{3}\npermission:{4}\nregistered_course:\n".format(
-            self.stu_dict['stuID'],self.stu_dict['name'],self.stu_dict['team'],self.stu_dict['rfid'],
-            self.stu_dict['permission'],self.stu_dict['registered_course']
+            self.stu_dict['stuID'],self.stu_dict['name'],self.stu_dict['team'],self.stu_dict['permission'],
+            self.stu_dict['rfid'],self.stu_dict['registered_course']
         )
         return string
 

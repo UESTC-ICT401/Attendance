@@ -40,8 +40,8 @@ class Serial(threading.Thread):
         """
         self.args=''
         self.ser = serial.Serial(port_name, bps, timeout=timeout)
-        str='specification of serial port：{0}'
-        return self.ser,str.format(self.ser)
+        msg='specification of serial port：{0}'
+        return msg.format(self.ser)
 
     def run(self):
         """

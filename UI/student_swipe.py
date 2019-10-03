@@ -5,7 +5,7 @@
 @contact: xinliu1996@163.com
 @Created on: 2019/10/2 10:50
 """
-from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
+from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox,QFileDialog, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
 from PyQt5.QtCore import Qt,pyqtSignal
 from PyQt5 import QtGui
 from UI.ui_student_swipe import Ui_Stu_Swipe
@@ -47,17 +47,17 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             self.stu_info_operate=StuInfoOperate(stu=stu)
         except Exception as e:
             QMessageBox.information(self, "错误!", "数据库连接失败!!!", QMessageBox.Yes)
-            self.log.info_out("数据库连接失败！")
-            self.log.debuf_out(e)
+            self.log.info_out("考勤刷卡读取信息：{}".format(e))
             return
         msg=self.stu_info_operate.search_stu(rfid=rfid)
         self.textBrowser.append(msg)
         self.log.info_out("RFID搜索结果：{}".format(msg))
         if stu['name']:
+            print(stu['name'])
             record_operate=RecordOperate(stu=stu,db=self.stu_info_operate.db)
             msg=record_operate.insert_record(islate=0)
             self.textBrowser.append('{},今天要加油哟！'.format(stu['name']))
-            self.log.info_out(msg)
+            self.log.info_out('考勤记录插入：{}'.format(msg))
             record_operate.close_db()
 
     def read_rfid(self,rfid):
@@ -75,9 +75,11 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         :return:
         """
         student_name = self.lineEd_stuID.text()
-        if student_name:
-            print(type(student_name))
+        if not student_name:
+            student_name=None
         student_team = self.comboBox_team.currentText()
+        if not student_team:
+            student_team=None
         start_time = self.dateEdit_starttime.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         end_time   = self.dateEdit_endtime.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         try:
@@ -85,6 +87,15 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             self.log.info_out('提取数据：连接数据成功')
         except Exception as e:
             self.log.debuf_out('提取数据:{}'.format(e))
-        msg,mysql_data,all_fileds = record_operate.search_record(time_range=(start_time,end_time),islate=0)
+        msg,mysql_data,all_fileds= record_operate.search_record(time_range=(start_time,end_time),name=student_name,
+                                                                team=student_team,islate=0)
         self.log.info_out(msg)
         record_operate.close_db()
+        file_name =time.strftime("%Y-%m-%d", time.localtime())+'.xls'
+        try:
+            record_operate.mysql2excel(mysql_data,all_fileds,file_name)
+            QMessageBox.information(self, "消息", "提取成功！", QMessageBox.Yes)
+            self.log.info_out('提取数据：成功！')
+        except Exception as e:
+            QMessageBox.information(self, "错误!", "错误原因：{}".format(e), QMessageBox.Yes)
+            self.log.debuf_out('提取数据:.{}'.format(e))

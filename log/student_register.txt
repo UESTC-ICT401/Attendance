@@ -1,7 +1,5 @@
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:27] DEBUG logger debug message
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:28] INFO logger info message
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:29] WARNING logger warning message
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:30] ERROR logger error message
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:31] CRITICAL logger critical message
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:47] INFO Serial<id=0x1d63d39f128, open=True>(port='COM3', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
-Thu, 03 Oct 2019 10:01:21 log_output.py[line:39] DEBUG specification of serial port：Serial<id=0x1d63d39f128, open=True>(port='COM3', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+Thu, 03 Oct 2019 16:19:33 log_output.py[line:42] INFO 初始化：开始运行
+Thu, 03 Oct 2019 16:19:33 log_output.py[line:42] INFO 串口初始化:specification of serial port：Serial<id=0x1f1edb5b518, open=True>(port='COM3', baudrate=9600, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+Thu, 03 Oct 2019 16:19:36 log_output.py[line:42] INFO 考勤刷卡读取信息：02303233353936313838320d0a03
+Thu, 03 Oct 2019 16:19:36 log_output.py[line:42] INFO RFID搜索结果：commit succeful!
+Thu, 03 Oct 2019 16:19:36 log_output.py[line:42] INFO 考勤记录插入：commit succeful!

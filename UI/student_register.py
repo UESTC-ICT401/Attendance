@@ -26,12 +26,6 @@ class StudentRegister(QWidget,Ui_student_register):
             self.setStyleSheet(css_file.read())
 
     def init_layout(self):
-        # self.pushButton_register.setStyleSheet("QPushButton{color:rgb(0,0,0)}" #按键前景色
-        #                          "QPushButton{background-color:rgb(126, 255, 126)}"  #按键背景色
-        #                          "QPushButton:hover{background-color:rgb(196, 255, 223)}" #光标移动到上面后的前景色
-        #                          "QPushButton{border-radius:6px}"  #圆角半径
-        #                          "QPushButton:pressed{background-color:rgb(180,180,180);border: None;}" #按下时的样式
-        # )
         self.pushButton_register.setFont(QtGui.QFont('Microsoft YaHei', 20))
         self.tableWidget_class_check.setColumnCount(3)
         self.tableWidget_class_check.verticalHeader().setVisible(False)
@@ -119,11 +113,10 @@ class StudentRegister(QWidget,Ui_student_register):
             self.stu_info_operate=StuInfoOperate(args)
         except Exception as e:
             QMessageBox.information(self, "错误!", "数据库连接失败!!!", QMessageBox.Yes)
-            self.log.info_out("数据库连接失败！")
-            self.log.debuf_out(e)
+            self.log.info_out('学生注册：{}'.format(e))
             return
         msg=self.stu_info_operate.insert_stu()
-        self.log.info_out(msg)
+        self.log.info_out('学生注册：{}'.format(msg))
         #close connect of mysql
         self.stu_info_operate.close_db()
 

@@ -102,7 +102,6 @@ class SqlOperate(object):
         try:
             cursor = self.db.cursor()
             sql =self.__searchcmd__.format(table_name=table,conditions=conditions)
-            print(sql)
             cursor.execute(sql)
             all_fields = cursor.description
             results = cursor.fetchall()
@@ -128,10 +127,10 @@ class StuInfoOperate(SqlOperate):
 
     def insert_stu(self):
         """
-        insert new student into `stu_info_sheet`
+        insert new student into `stu_info_table`
         :return:
         """
-        msg=self.insert_data('stu_info_sheet',self.stu.stu_dict)
+        msg=self.insert_data('stu_info_table',self.stu.stu_dict)
         return msg
 
     def search_stu(self,stuID=None,rfid=None):
@@ -146,7 +145,7 @@ class StuInfoOperate(SqlOperate):
             condition_name="stuID='{}'".format(stuID)
         if rfid is not None:
             condition_rfid="rfID='{}'".format(rfid)
-        msg,results,all_fields=self.search_data('stu_info_sheet',condition_name,condition_rfid)
+        msg,results,all_fields=self.search_data('stu_info_table',condition_name,condition_rfid)
         i=0
         if results:
             for key in self.stu.stu_dict:
@@ -187,7 +186,7 @@ class RecordOperate(SqlOperate):
         self.record_dict['team'] =self.stu['team']
         self.record_dict['time'] =self.insert_time
         self.record_dict['islate']=islate
-        msg = self.insert_data('record_sheet', self.record_dict)
+        msg = self.insert_data('record_table', self.record_dict)
         return msg
 
     def search_record(self,time_range=None,name=None,team=None,islate=None):
@@ -211,21 +210,20 @@ class RecordOperate(SqlOperate):
             condition_team="team='{}'".format(team)
         if islate is not None:
             condition_islate="islate='{}'".format(islate)
-        msg,returns,all_fields=self.search_data('record_sheet',condition_time,condition_name,condition_team,condition_islate)
+        msg,returns,all_fields=self.search_data('record_table',condition_time,condition_name,condition_team,condition_islate)
         return msg,returns,all_fields
 
-    def mysql2excel(self,mysql_data,all_fields):
+    def mysql2excel(self,mysql_data=None,all_fields=None,file_name=None):
         excel = xlwt.Workbook()
-        sheet = excel.add_sheet("sheet1")
+        table = excel.add_table("table1")
         row_number = len(mysql_data)
         column_number = len(all_fields)
         for i in range(column_number):
-            sheet.write(0, i, all_fields[i][0])
+            table.write(0, i, all_fields[i][0])
         for i in range(row_number):
             for j in range(column_number):
-                sheet.write(i + 1, j, str(mysql_data[i][j]))
-        excelName = "考勤.xls"
-        excel.save(excelName)
+                table.write(i + 1, j, str(mysql_data[i][j]))
+        excel.save(file_name)
 
 
 
@@ -237,5 +235,6 @@ class RecordOperate(SqlOperate):
 # db=stu_info_operate.get_db()
 # my =RecordOperate(stu,db)
 # msg=my.insert_record(islate=0)
-# msg,mysql_data,all_fileds=my.search_record(team='程建')
-# my.mysql2excel(mysql_data,all_fileds)
+# msg,mysql_data,all_fileds=my.search_record(team='刘鑫')
+# print(all_fileds)
+# my.mysql2excel(mysql_data,all_fileds,'考勤')

@@ -24,11 +24,6 @@ class Mylog(object):
         console.setFormatter(formatter)
         logging.getLogger().addHandler(console)  # 实例化添加handler
 
-        logging.debug('logger debug message')
-        logging.info('logger info message')
-        logging.warning('logger warning message')
-        logging.error('logger error message')
-        logging.critical('logger critical message')
 
     def debug_out(self,str):
         """

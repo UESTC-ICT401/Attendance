@@ -20,6 +20,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.log=Mylog("log/student_register.txt")
         #Warnning: the next 5 commands can't be exchanged.
         # create serial obj and open COM1(first com of com_list).
+        self.log.info_out('初始化：开始运行')
         self.init_com_obj()
         self.com_win = ComWindows(target=self.change_com,args='')
         #create mysql connect obj.
@@ -83,10 +84,9 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.ser= Serial()
         com_list=self.ser.search_port()
         if com_list:
-            print(com_list[0][0])
-            msg,info=self.ser.port_init(com_list[0][0],bps=9600)
-            self.log.info_out(msg)
-            self.log.debug_out(info)
+            msg=self.ser.port_init(com_list[0][0],bps=9600)
+            self.log.info_out('串口初始化:{}'.format(msg))
+            # self.log.debug_out('串口初始化:{}'.format(info))
             self.ser.start()
             return com_list
         else:
@@ -101,10 +101,11 @@ class Windows(QMainWindow, Ui_MainWindow):
         try:
             self.com_win.close()
             self.ser.close()
-            self.ser.port_init(com_name,bps=9600)
+            msg=self.ser.port_init(com_name,bps=9600)
             self.ser.start()
+            self.log.info_out('串口切换:{}'.format(msg))
         except Exception as e:
-            self.log.debug_out(e)
+            self.log.debug_out('串口切换:{}'.format(e))
 
 
 
