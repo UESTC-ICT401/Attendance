@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>427</height>
+    <width>546</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,2">
+  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
    <item>
     <widget class="QWidget" name="widget" native="true">
      <property name="styleSheet">

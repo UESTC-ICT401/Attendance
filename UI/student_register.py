@@ -5,21 +5,23 @@
 
 from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
 from UI.ui_student_register import Ui_student_register
-from student import Student
+from PyQt5.QtCore import Qt,pyqtSignal
 from PyQt5 import QtGui
+from student import Student
 from log_output import Mylog
+from mysql_operation import *
 
 
-
-class student_register(QWidget,Ui_student_register):
+class StudentRegister(QWidget,Ui_student_register):
     def __init__(self,log,target=None,args=None):
-        super(student_register, self).__init__()
+        super(StudentRegister, self).__init__()
         self.setupUi(self)
         self.init_layout()
         self.student = None
         self.log=log
         self.target=target
         self.args=args
+        self.rev_signal=pyqtSignal(str)
         with open("./UI/css/register.css","r") as css_file:
             self.setStyleSheet(css_file.read())
 
@@ -59,7 +61,7 @@ class student_register(QWidget,Ui_student_register):
                 course_checked.append(i)
         args = Student(student_number,student_name,team,student_permission,student_IdCard,course_checked)
         self.log.info_out(args)
-        self.target(args)
+        self.register_stu_sql(args)
 
     def load_course_info(self, list_course):
         """
@@ -111,4 +113,17 @@ class student_register(QWidget,Ui_student_register):
     def read_rfid(self,rfid):
         # print(msg)
         self.lineEdit_student_IdCard.setText(rfid)
+
+    def register_stu_sql(self,args):
+        try:
+            self.stu_info_operate=StuInfoOperate(args)
+        except Exception as e:
+            QMessageBox.information(self, "错误!", "数据库连接失败!!!", QMessageBox.Yes)
+            self.log.info_out("数据库连接失败！")
+            self.log.debuf_out(e)
+            return
+        msg=self.stu_info_operate.insert_stu()
+        self.log.info_out(msg)
+        #close connect of mysql
+        self.stu_info_operate.close_db()
 

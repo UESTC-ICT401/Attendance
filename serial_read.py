@@ -53,17 +53,10 @@ class Serial(threading.Thread):
             try:
                 self.args+= self.ser.read().hex()
                 count+=1
-                if(count%12==0):
+                if(count%14==0):
                     count=0
-                    msg = ''
                     if self.target is not None:
                         self.target(self.args)
+                    self.args=''
             except Exception as e:
                 pass
-
-
-
-# ser= MySerial()
-# msg,info=ser.port_init('COM3')
-# print(info)
-# ser.start()

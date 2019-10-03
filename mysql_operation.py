@@ -78,7 +78,6 @@ class SqlOperate(object):
             cursor = self.db.cursor()
             values =self.dict2sql(columns_dict)
             sql =self.__insertcmd__.format(table_name=table_name,values=values)
-            print(sql)
             cursor.execute(sql)
             self.db.commit()
             threadLock.release()# release the lock
@@ -103,6 +102,7 @@ class SqlOperate(object):
         try:
             cursor = self.db.cursor()
             sql =self.__searchcmd__.format(table_name=table,conditions=conditions)
+            print(sql)
             cursor.execute(sql)
             all_fields = cursor.description
             results = cursor.fetchall()
@@ -134,24 +134,29 @@ class StuInfoOperate(SqlOperate):
         msg=self.insert_data('stu_info_sheet',self.stu.stu_dict)
         return msg
 
-    def search_stu(self,stuID=None,rfID=None):
+    def search_stu(self,stuID=None,rfid=None):
         """
         search the infomation of student based on stuID，（Notice：just return one students）
         :param stuID:
         :return:msg:the info of running
         """
         condition_name=' '
-        condition_rfID=' '
+        condition_rfid=' '
         if stuID is not None:
             condition_name="stuID='{}'".format(stuID)
-        if rfID is not None:
-            condition_islate="rfID='{}'".format(rfID)
-        msg,results,all_fields=self.search_data('stu_info_sheet',condition_name,condition_rfID)
+        if rfid is not None:
+            condition_rfid="rfID='{}'".format(rfid)
+        msg,results,all_fields=self.search_data('stu_info_sheet',condition_name,condition_rfid)
         i=0
-        for key in stu.stu_dict:
-            stu.stu_dict[key]=results[0][i]
-            i+=1
-        return msg
+        if results:
+            for key in self.stu.stu_dict:
+                self.stu.stu_dict[key] = results[0][i]
+                i += 1
+            return msg
+        else:
+            return "未找到信息！"
+
+
         # return_stu=Student()
 
 ##############################################################
@@ -177,9 +182,9 @@ class RecordOperate(SqlOperate):
         :return:
         """
         self.get_time()
-        self.record_dict['stuID']=stu['stuID']
-        self.record_dict['name'] =stu['name']
-        self.record_dict['team'] =stu['team']
+        self.record_dict['stuID']=self.stu['stuID']
+        self.record_dict['name'] =self.stu['name']
+        self.record_dict['team'] =self.stu['team']
         self.record_dict['time'] =self.insert_time
         self.record_dict['islate']=islate
         msg = self.insert_data('record_sheet', self.record_dict)
@@ -199,7 +204,7 @@ class RecordOperate(SqlOperate):
         condition_team=' '
         condition_islate=' '
         if time_range is not None:
-            condition_time="time<'{0}' and time > '{1}'".format(time_range[0],time_range[1])
+            condition_time="time>'{0}' and time < '{1}'".format(time_range[0],time_range[1])
         if name is not None:
             condition_name="name='{}'".format(name)
         if team is not None:
@@ -207,7 +212,6 @@ class RecordOperate(SqlOperate):
         if islate is not None:
             condition_islate="islate='{}'".format(islate)
         msg,returns,all_fields=self.search_data('record_sheet',condition_time,condition_name,condition_team,condition_islate)
-        print(returns)
         return msg,returns,all_fields
 
     def mysql2excel(self,mysql_data,all_fields):

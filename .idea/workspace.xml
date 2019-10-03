@@ -2,20 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b85f83d5-ceee-4dd7-a7bf-0e139f3a0938" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UI/com.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UI/student_swipe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Record.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/mainWin.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/student_register.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/student_register.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/ui_com.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/ui_com.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/ui_mainWin.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/ui_mainWin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/ui_mainWin.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/ui_mainWin.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/ui_student_register.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/ui_student_register.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/ui_student_register.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/ui_student_register.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/student_register.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/student_register.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysql_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_operation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serial_read.py" beforeDir="false" afterPath="$PROJECT_DIR$/serial_read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/student.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +53,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\UESTC\考勤程序\Attendance\UI" />
       <recent name="E:\UESTC\考勤程序\Attendance" />
     </key>
   </component>
@@ -213,15 +213,6 @@
     <option name="localTasksCounter" value="3" />
     <servers />
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
       <list>
@@ -262,5 +253,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2019/9/27" />
     <option name="LAST_COMMIT_MESSAGE" value="2019/9/27" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/serial_read.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>705</width>
-    <height>427</height>
+    <width>623</width>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>picture/icon.png</normaloff>picture/icon.png</iconset>
+    <normaloff>C:/Users/liuxin/.designer/backup/picture/icon.png</normaloff>C:/Users/liuxin/.designer/backup/picture/icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -36,7 +36,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>705</width>
+     <width>623</width>
      <height>26</height>
     </rect>
    </property>
@@ -44,8 +44,9 @@
     <property name="title">
      <string>菜单</string>
     </property>
-    <addaction name="actionregister"/>
+    <addaction name="actionRegister"/>
     <addaction name="actionCOM"/>
+    <addaction name="actionSwipe"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -55,14 +56,19 @@
    <addaction name="menu"/>
    <addaction name="menu_2"/>
   </widget>
-  <action name="actionregister">
+  <action name="actionRegister">
    <property name="text">
-    <string>register</string>
+    <string>Register</string>
    </property>
   </action>
   <action name="actionCOM">
    <property name="text">
     <string>COM</string>
+   </property>
+  </action>
+  <action name="actionSwipe">
+   <property name="text">
+    <string>Swipe</string>
    </property>
   </action>
  </widget>

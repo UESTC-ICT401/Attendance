@@ -26,6 +26,7 @@ class Ui_Com_Form(object):
         self.horizontalLayout.addWidget(self.label)
         self.comboBox_com = QtWidgets.QComboBox(self.horizontalLayoutWidget)
         self.comboBox_com.setMinimumSize(QtCore.QSize(0, 30))
+        self.comboBox_com.setCurrentText("")
         self.comboBox_com.setObjectName("comboBox_com")
         self.horizontalLayout.addWidget(self.comboBox_com)
         self.horizontalLayout.setStretch(0, 2)
