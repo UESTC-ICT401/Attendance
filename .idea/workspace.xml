@@ -2,19 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b85f83d5-ceee-4dd7-a7bf-0e139f3a0938" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/2019-10-03.xls" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/course.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2019-10-03.xls" beforeDir="false" afterPath="$PROJECT_DIR$/2019-10-03.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/student_register.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/student_register.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/student_swipe.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/student_swipe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/student_register.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/student_register.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_output.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysql_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_operation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serial_read.py" beforeDir="false" afterPath="$PROJECT_DIR$/serial_read.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/student.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/考勤.xls" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -253,5 +248,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2019/9/27" />
     <option name="LAST_COMMIT_MESSAGE" value="2019/9/27" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="self.ser.target" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

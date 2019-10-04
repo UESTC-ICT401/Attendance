@@ -215,7 +215,7 @@ class RecordOperate(SqlOperate):
 
     def mysql2excel(self,mysql_data=None,all_fields=None,file_name=None):
         excel = xlwt.Workbook()
-        table = excel.add_table("table1")
+        table = excel.add_sheet("table1")
         row_number = len(mysql_data)
         column_number = len(all_fields)
         for i in range(column_number):
@@ -225,16 +225,21 @@ class RecordOperate(SqlOperate):
                 table.write(i + 1, j, str(mysql_data[i][j]))
         excel.save(file_name)
 
+##################################################################
+class CourseOperate(SqlOperate):
+    """
+
+    """
+    def __init__(self,course,db=None):
+        if db is not None:    #actually, if we didn't create a db object,we need create a new by calling sql_operate.__init__()
+            self.db=db
+        else:
+            super().connect_sql()
+        self.course =course
+
+    def insert_course(self):
+        msg=self.insert_data('stu_course_mapping_table',self.course)
+        return msg
 
 
 
-
-# stu=Student()
-# stu_info_operate=StuInfoOperate(stu)
-# stu_info_operate.search_stu('201922011425')
-# db=stu_info_operate.get_db()
-# my =RecordOperate(stu,db)
-# msg=my.insert_record(islate=0)
-# msg,mysql_data,all_fileds=my.search_record(team='刘鑫')
-# print(all_fileds)
-# my.mysql2excel(mysql_data,all_fileds,'考勤')

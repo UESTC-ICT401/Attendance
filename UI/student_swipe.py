@@ -14,7 +14,7 @@ from log_output import Mylog
 from mysql_operation import *
 
 class StudentSwipe(QWidget,Ui_Stu_Swipe):
-    recv_signal = pyqtSignal(str)
+
     def __init__(self,log,target=None,args=None):
         super(StudentSwipe,self).__init__()
         self.log=log
@@ -37,7 +37,6 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         connect qt signal and slot
         :return:
         """
-        self.recv_signal.connect(self.stu_swipe)
         self.pushButton_extract.clicked.connect(self.extract_to_excel)
 
     def stu_swipe(self, rfid):
@@ -66,8 +65,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         :param rfid:
         :return:
         """
-        # self.textBrowser.append(rfid)   #illegal operation
-        self.recv_signal.emit(rfid)
+        self.stu_swipe(rfid)
 
     def extract_to_excel(self):
         """

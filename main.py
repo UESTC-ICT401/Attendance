@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout)
+from PyQt5.QtCore import Qt,pyqtSignal
 import sys
 from UI.ui_mainWin import Ui_MainWindow
 from UI.student_register import StudentRegister
@@ -7,23 +8,23 @@ from UI.com import ComWindows
 from UI.student_swipe import StudentSwipe
 from log_output import Mylog
 from serial_read import Serial
-
+import time
 
 
 
 class Windows(QMainWindow, Ui_MainWindow):
+    #this signal is very important for communication between serial thread and UI thread
+    recv_signal = pyqtSignal(str)
     def __init__(self):
         super(Windows, self).__init__()
         self.setupUi(self)
         self.signal_slot_connect()
+        #record the connecting slot
+        self.connect_slot=None
         #call_func is the callfunction of serial listening-threading.
         self.log=Mylog("log/student_register.txt")
-        #Warnning: the next 5 commands can't be exchanged.
-        # create serial obj and open COM1(first com of com_list).
         self.log.info_out('初始化：开始运行')
         self.init_com_obj()
-        self.com_win = ComWindows(target=self.change_com,args='')
-        #create mysql connect obj.
         #default wiget is the swipe wiget
         self.open_swipe_windows()
 
@@ -43,12 +44,20 @@ class Windows(QMainWindow, Ui_MainWindow):
         delete all widgets of gridLayout_widget,and recreate register obj ,add this widget on gridLayout_widget
         :return:
         """
+        self.student_register = StudentRegister(self.log)
+        if self.connect_slot is not None:
+            self.recv_signal.disconnect(self.connect_slot)
+        self.connect_slot=self.student_register.read_rfid
+        self.recv_signal.connect(self.connect_slot)
+        #移除所有添加的控件，同时对象会被回收。
         for i in range(self.gridLayout_widget.count()):
             self.gridLayout_widget.itemAt(i).widget().deleteLater()
-        self.student_register = StudentRegister(self.log)
-        self.ser.target=self.student_register.read_rfid
         self.student_register.load_team_info(["刘鑫", "李行宇", "林仕文"])
         self.gridLayout_widget.addWidget(self.student_register)
+
+    def callback_func(self,msg):
+        self.recv_signal.emit(msg)
+
 
     def open_swipe_windows(self):
         """
@@ -56,12 +65,16 @@ class Windows(QMainWindow, Ui_MainWindow):
         delete all widgets of gridLayout_widget,and recreate register obj ,add this widget on gridLayout_widget
         :return:
         """
+        self.student_swipe = StudentSwipe(self.log, target=None, args='')
+        if self.connect_slot is not None:
+            self.recv_signal.disconnect(self.connect_slot)
+        self.connect_slot=self.student_swipe.read_rfid
+        self.recv_signal.connect(self.connect_slot)
         for i in range(self.gridLayout_widget.count()):
             self.gridLayout_widget.itemAt(i).widget().deleteLater()
-        self.student_swipe = StudentSwipe(self.log,target=None,args='')
         self.student_swipe.load_team_info(["刘鑫", "李行宇", "林仕文"])
         self.gridLayout_widget.addWidget(self.student_swipe)
-        self.ser.target=self.student_swipe.read_rfid
+        # self.call_func=self.student_swipe.read_rfid
 
 
     def open_com_windows(self):
@@ -69,6 +82,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         put com list info into combox of com_win
         :return:
         """
+        self.com_win = ComWindows(target=self.change_com, args='')
         com_list=self.ser.search_port()
         if com_list:
             self.com_win.put_com_list(com_list)
@@ -81,12 +95,11 @@ class Windows(QMainWindow, Ui_MainWindow):
         init com obj including creating
         :return:
         """
-        self.ser= Serial()
+        self.ser= Serial(target=self.callback_func,args='')
         com_list=self.ser.search_port()
         if com_list:
             msg=self.ser.port_init(com_list[0][0],bps=9600)
             self.log.info_out('串口初始化:{}'.format(msg))
-            # self.log.debug_out('串口初始化:{}'.format(info))
             self.ser.start()
             return com_list
         else:
@@ -98,14 +111,11 @@ class Windows(QMainWindow, Ui_MainWindow):
         :param com_name:
         :return:
         """
-        try:
-            self.com_win.close()
-            self.ser.close()
-            msg=self.ser.port_init(com_name,bps=9600)
-            self.ser.start()
-            self.log.info_out('串口切换:{}'.format(msg))
-        except Exception as e:
-            self.log.debug_out('串口切换:{}'.format(e))
+        self.com_win.close()
+        self.ser.close()
+        time.sleep(0.2)
+        msg=self.ser.port_init(com_name,bps=9600)
+        self.log.info_out('串口切换:{}'.format(msg))
 
 
 
