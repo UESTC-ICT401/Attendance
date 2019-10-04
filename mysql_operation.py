@@ -81,10 +81,10 @@ class SqlOperate(object):
             cursor.execute(sql)
             self.db.commit()
             threadLock.release()# release the lock
-            return "commit succeful!"
+            return "commit succeful!",True
         except Exception  as e:
             threadLock.release()# release the lock
-            return e
+            return e,False
 
     #search data
     def search_data(self,table,*args):
@@ -105,11 +105,23 @@ class SqlOperate(object):
             cursor.execute(sql)
             all_fields = cursor.description
             results = cursor.fetchall()
-            return "commit succeful!",results,all_fields
+            return "commit succeful!",results,all_fields,True
         except Exception  as e:
-            return e,0
+            return e,0,0,False
 
-    # close database
+    def excute_cmd(self,sql):
+        """
+        excute any sql
+        :param sql:
+        :return:
+        """
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(sql)
+            return "commit succeful!",True
+        except Exception  as e:
+            return e,False
+
     def close_db(self):
         self.db.close()
 
@@ -240,6 +252,14 @@ class CourseOperate(SqlOperate):
     def insert_course(self):
         msg=self.insert_data('stu_course_mapping_table',self.course)
         # return msg
+
+    def update_course_effectiveness(self):
+        msg,reslut=self.excute_cmd('UPDATE course_table SET effectiveness =0')
+        msg,reslut = self.excute_cmd('UPDATE course_table SET effectiveness =1 \
+        WHERE DATE(NOW()) BETWEEN start_date AND end_date')
+        return msg,reslut
+
+
 
 
 

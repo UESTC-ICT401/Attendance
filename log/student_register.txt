@@ -1,6 +1,0 @@
-Fri, 04 Oct 2019 11:58:05 log_output.py[line:42] INFO 初始化：开始运行
-Fri, 04 Oct 2019 11:58:05 log_output.py[line:42] INFO 串口初始化:specification of serial port：COM1
-Fri, 04 Oct 2019 11:58:13 log_output.py[line:42] INFO 串口切换:specification of serial port：COM3
-Fri, 04 Oct 2019 11:58:14 log_output.py[line:42] INFO 考勤刷卡读取信息：02303233353936313838320d0a03
-Fri, 04 Oct 2019 11:58:14 log_output.py[line:42] INFO RFID搜索结果：commit succeful!
-Fri, 04 Oct 2019 11:58:14 log_output.py[line:42] INFO 考勤记录插入：commit succeful!
