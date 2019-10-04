@@ -239,7 +239,7 @@ class CourseOperate(SqlOperate):
 
     def insert_course(self):
         msg=self.insert_data('stu_course_mapping_table',self.course)
-        return msg
+        # return msg
 
 
 
