@@ -22,6 +22,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         self.target=target
         self.args=args
         self.connect_signal_slot()
+        self.islate=0
 
 
     def load_team_info(self, list_team):
@@ -52,12 +53,43 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         self.textBrowser.append(msg)
         self.log.info_out("RFID搜索结果：{}".format(msg))
         if stu['name']:
-            print(stu['name'])
             record_operate=RecordOperate(stu=stu,db=self.stu_info_operate.db)
-            msg=record_operate.insert_record(islate=0)
-            self.textBrowser.append('{},今天要加油哟！'.format(stu['name']))
-            self.log.info_out('考勤记录插入：{}'.format(msg))
+            info,reslut=record_operate.insert_record(islate=0)
+            if reslut:
+                self.textBrowser.append('{},今天要加油哟！'.format(stu['name']))
+                self.log.info_out('考勤记录插入：{}'.format(info))
             record_operate.close_db()
+            self.check_late()
+
+    def check_late(self):
+        """
+        Check if the person swiping is late.
+        :return:
+        """
+        now_localtime=time.localtime()
+        now_time = time.strftime("%H:%M",now_localtime )
+        now_weekday = time.strftime("%a", now_localtime)
+        if now_weekday != ('Sunday' or 'Saturday'):
+            sql="SELECT stuID FROM stu_course_mapping_table WHERE course_id \
+            IN (SELECT course_id FROM course_table WHERE lesson_weekday ='{}'\
+             AND effectiveness = 1 AND (CURRENT_TIME() BETWEEN start_time AND end_time))".format(now_weekday)
+            record_operate = RecordOperate(stu=None)
+            info,reslut=record_operate.excute_cmd(sql)
+            if reslut:
+                print(info)
+            else:
+                self.log.info_out('查询课表：{}'.format(info))
+
+
+        else:
+            self.islate=0
+
+
+
+
+
+
+
 
     def read_rfid(self,rfid):
         """

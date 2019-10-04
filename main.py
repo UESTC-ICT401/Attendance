@@ -64,7 +64,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         """
         self.ser= Serial(target=self.serial_callback,args='')
         com_list=self.ser.search_port()
-        if com_list:
+        if com_list[0][0]:
             msg=self.ser.port_init(com_list[0][0],bps=9600)
             self.log.info_out('串口初始化:{}'.format(msg))
             self.ser.start()

@@ -81,7 +81,7 @@ class SqlOperate(object):
             cursor.execute(sql)
             self.db.commit()
             threadLock.release()# release the lock
-            return "commit succeful!",True
+            return 0,True
         except Exception  as e:
             threadLock.release()# release the lock
             return e,False
@@ -104,10 +104,10 @@ class SqlOperate(object):
             sql =self.__searchcmd__.format(table_name=table,conditions=conditions)
             cursor.execute(sql)
             all_fields = cursor.description
-            results = cursor.fetchall()
-            return "commit succeful!",results,all_fields,True
+            info = cursor.fetchall()
+            return info,all_fields,True
         except Exception  as e:
-            return e,0,0,False
+            return e,0,False
 
     def excute_cmd(self,sql):
         """
@@ -118,7 +118,8 @@ class SqlOperate(object):
         try:
             cursor = self.db.cursor()
             cursor.execute(sql)
-            return "commit succeful!",True
+            results = cursor.fetchall()
+            return results,True
         except Exception  as e:
             return e,False
 
@@ -157,13 +158,13 @@ class StuInfoOperate(SqlOperate):
             condition_name="stuID='{}'".format(stuID)
         if rfid is not None:
             condition_rfid="rfID='{}'".format(rfid)
-        msg,results,all_fields=self.search_data('stu_info_table',condition_name,condition_rfid)
+        info,all_fields,reslut=self.search_data('stu_info_table',condition_name,condition_rfid)
         i=0
-        if results:
+        if info:
             for key in self.stu.stu_dict:
-                self.stu.stu_dict[key] = results[0][i]
+                self.stu.stu_dict[key] = info[0][i]
                 i += 1
-            return msg
+            return "commit successful!"
         else:
             return "未找到信息！"
 
@@ -198,8 +199,8 @@ class RecordOperate(SqlOperate):
         self.record_dict['team'] =self.stu['team']
         self.record_dict['time'] =self.insert_time
         self.record_dict['islate']=islate
-        msg = self.insert_data('record_table', self.record_dict)
-        return msg
+        info,reslut = self.insert_data('record_table', self.record_dict)
+        return info,reslut
 
     def search_record(self,time_range=None,name=None,team=None,islate=None):
         """
@@ -227,7 +228,7 @@ class RecordOperate(SqlOperate):
 
     def mysql2excel(self,mysql_data=None,all_fields=None,file_name=None):
         excel = xlwt.Workbook()
-        table = excel.add_sheet("table1")
+        table = excel.add_sheet("sheet1")
         row_number = len(mysql_data)
         column_number = len(all_fields)
         for i in range(column_number):
