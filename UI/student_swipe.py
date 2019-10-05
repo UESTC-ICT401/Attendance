@@ -12,6 +12,7 @@ from UI.ui_student_swipe import Ui_Stu_Swipe
 from student import Student
 from log_output import Mylog
 from mysql_operation import *
+from global_value import *
 
 class StudentSwipe(QWidget,Ui_Stu_Swipe):
 
@@ -41,6 +42,13 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         self.pushButton_extract.clicked.connect(self.extract_to_excel)
 
     def stu_swipe(self, rfid):
+        # self.check_late()
+        now_localtime=time.localtime()
+        now_time = time.strftime("%H:%M",now_localtime )
+        if not ((now_time < MORINING_ATTENDANCE_TIME )or (now_time >MORINING_END_TIME and now_time <AFTERNOON_START_TIME) or\
+            (now_time >AFTERNOON_END_TIME and now_time <EVENING_START_TIME)):
+            self.textBrowser.append('打卡时间已过！你已迟到！')
+            return
         self.log.info_out("考勤刷卡读取信息：{}".format(rfid))
         stu = Student()
         try:
@@ -59,41 +67,87 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
                 self.textBrowser.append('{},今天要加油哟！'.format(stu['name']))
                 self.log.info_out('考勤记录插入：{}'.format(info))
             record_operate.close_db()
-            self.check_late()
 
     def check_late(self):
+        now_localtime = time.localtime()
+        now_time = time.strftime("%H:%M", now_localtime)
+        now_weekday = time.strftime("%a", now_localtime)
+        #######################################################################
+        if now_weekday == ('Sunday' or 'Saturday'):
+            return
+        now_date = time.strftime("%Y-%m-%d ", now_localtime)
+        if now_time>MORINING_START_TIME and  now_time<MORINING_START_TIME:
+            start_time = now_date + MORINING_START_TIME
+            end_time   =now_date +MORINING_END_TIME
+        elif now_time>AFTERNOON_START_TIME and now_time<AFTERNOON_END_TIME:
+            start_time = now_date + AFTERNOON_START_TIME
+            end_time   =now_date +AFTERNOON_END_TIME
+        else:
+            start_time = now_date + EVENING_START_TIME
+            end_time   =now_date +EVENING_END_TIME
+        # 这里必须要用中文了：此sql语句求出所有人当中，除了有课的同学以及已经在合理打卡时间段打过卡的同学以外，没有打卡的人
+        #也就是迟到的人的学号，姓名，团队。
+        sql = '''CREATE TABLE tmp AS  
+                (
+                    SELECT stuID,name,team FROM stu_info_table
+                    WHERE stuID NOT IN
+                    (SELECT stuID FROM record_table WHERE time BETWEEN "{0}" AND "{1}") 
+                    AND stuID NOT IN
+                    (
+                        SELECT stuID FROM stu_course_mapping_table WHERE course_id  
+                        IN (SELECT course_id FROM course_table WHERE lesson_weekday ='{2}'  
+                        AND effectiveness = 1 
+                        AND (CURRENT_TIME() BETWEEN start_time AND end_time))
+                    )
+                )'''.format(start_time,end_time,now_weekday)
+        record_operate = RecordOperate(stu=None)
+        info,reslut=record_operate.excute_cmd(sql)
+        if not reslut:
+            self.log.info_out('搜索打卡记录并创建tmp表储存：{}'.format(info))
+            return
+        else:
+            self.log.info_out('搜索打卡记录并创建tmp表储存：成功！')
+            sql = '''INSERT INTO record_table (stuID,name,team ) SELECT stuID,name,team FROM tmp'''
+            info, reslut = record_operate.excute_cmd(sql)
+            if reslut:
+                self.log.info_out('tmp表插入考勤记录：成功！')
+            else:
+                self.log.info_out('tmp表插入考勤记录：{}'.format(info))
+                return
+
+            sql = '''DROP TABLE tmp;'''
+            info, reslut = record_operate.excute_cmd(sql)
+
+            sql = '''UPDATE record_table SET time=NOW(),islate=1 WHERE islate IS NULL;'''
+            info, reslut = record_operate.excute_cmd(sql)
+            if reslut:
+                self.log.info_out('完善迟到信息：成功！')
+            else:
+                self.log.info_out('完善迟到信息：失败！')
+
+
+
+
+
+
+    def check_course_effectiv(self):
         """
-        Check if the person swiping is late.
+        check courses if effectivly
         :return:
         """
-        now_localtime=time.localtime()
-        now_time = time.strftime("%H:%M",now_localtime )
-        now_weekday = time.strftime("%a", now_localtime)
-        if now_weekday != ('Sunday' or 'Saturday'):
-            sql="SELECT stuID FROM stu_course_mapping_table WHERE course_id \
-            IN (SELECT course_id FROM course_table WHERE lesson_weekday ='{}'\
-             AND effectiveness = 1 AND (CURRENT_TIME() BETWEEN start_time AND end_time))".format(now_weekday)
-            record_operate = RecordOperate(stu=None)
-            info,reslut=record_operate.excute_cmd(sql)
-            if reslut:
-                print(info)
-            else:
-                self.log.info_out('查询课表：{}'.format(info))
-
-
+        course_operate = CourseOperate(stu=None)
+        sql='UPDATE course_table SET effectiveness = 0'
+        info, reslut = course_operate.excute_cmd(sql)
+        sql = 'UPDATE course_table SET effectiveness =1 WHERE DATE(NOW()) BETWEEN start_date AND end_date'
+        info, reslut = course_operate.excute_cmd(sql)
+        if reslut:
+            self.log.info_out("查验课程有效性:成功!")
         else:
-            self.islate=0
-
-
-
-
-
-
+            self.log.info_out("查验课程有效性:{}".format(info))
 
 
     def read_rfid(self,rfid):
         """
-
         :param rfid:
         :return:
         """

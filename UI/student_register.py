@@ -139,19 +139,20 @@ class StudentRegister(QWidget,Ui_student_register):
             self.log.info_out('学生注册：学生插入信息{}'.format(info))
             return
         values_list = []
-        for i in course_checked:
-            values_tuple = (stu['stuID'], stu['name'],
-                            self.course_obj_list[i]['course_id'],
-                            self.course_obj_list[i]['course_name'])
-            values_list.append(values_tuple)
-        VALUES=",".join(str(i) for i in values_list)
-        sql ='INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES {}'.format(VALUES)
-        #sql="INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES ('201922011425', '刘鑫', '1255', 'python程序设计'),('201922011425', '刘鑫', '1245', 'C++程序设计')"
-        info,reslut=self.stu_info_operate.excute_cmd(sql)
-        if reslut:
-            self.log.info_out('学生注册：注册成功')
-        else:
-            QMessageBox.information(self, "错误!", "插入失败!!!{}".format(info), QMessageBox.Yes)
+        if course_checked:
+            for i in course_checked:
+                values_tuple = (stu['stuID'], stu['name'],
+                                self.course_obj_list[i]['course_id'],
+                                self.course_obj_list[i]['course_name'])
+                values_list.append(values_tuple)
+            VALUES=",".join(str(i) for i in values_list)
+            sql ='INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES {}'.format(VALUES)
+            #sql="INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES ('201922011425', '刘鑫', '1255', 'python程序设计'),('201922011425', '刘鑫', '1245', 'C++程序设计')"
+            info,reslut=self.stu_info_operate.excute_cmd(sql)
+            if reslut:
+                self.log.info_out('学生注册：注册成功')
+            else:
+                QMessageBox.information(self, "错误!", "插入失败!!!{}".format(info), QMessageBox.Yes)
         #close connect of mysql
         self.stu_info_operate.close_db()
 

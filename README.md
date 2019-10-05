@@ -35,7 +35,25 @@
 
 2019/10/5 16:16 在注册时加入信息完整性校验，并且实现课程表导入，以及学生-课程表映射表的写入，自此，完整的学生注册功能完成。
 
+2019/10/5 22:48 加入了8:30 14:30 19:30 自动查询课程表，未打卡，且没课的同学将被标记迟到录入数据库的机制，实现原理：首先找出此时此刻正在上的课以及正在上课的同学，获取他们的学号，并与已经打卡的同学做并集，最后与人员信息表做差集，求出迟到的人，最后保存结果在临时表中，插入考勤记录后删除临时表。
 
+sql语句：
+
+```python
+        sql = '''CREATE TABLE tmp AS  
+                (
+                    SELECT stuID,name,team FROM stu_info_table
+                    WHERE stuID NOT IN
+                    (SELECT stuID FROM record_table WHERE time BETWEEN "{0}" AND "{1}") 
+                    AND stuID NOT IN
+                    (
+                        SELECT stuID FROM stu_course_mapping_table WHERE course_id  
+                        IN (SELECT course_id FROM course_table WHERE lesson_weekday ='{2}'  
+                        AND effectiveness = 1 
+                        AND (CURRENT_TIME() BETWEEN start_time AND end_time))
+                    )
+                )'''.format(start_time,end_time,now_weekday)
+```
 
 
 

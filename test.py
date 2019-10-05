@@ -7,8 +7,7 @@
 """
 import time,datetime
 
-date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-print(date)
-day= time.strftime("%A", time.localtime())
-if day !=('Sunday' or 'Saturday'):
-    print('周末')
+now_localtime = time.localtime()
+now_date = time.strftime("%Y-%m-%d ", now_localtime)
+start_time=now_date+"8:30:00"
+print(start_time)

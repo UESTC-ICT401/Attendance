@@ -8,6 +8,7 @@
 import schedule
 import time
 import threading
+from  global_value import *
 
 class TaskSchedule(threading.Thread):
 
@@ -23,10 +24,10 @@ class TaskSchedule(threading.Thread):
         :param target: callback function
         :return:
         """
-        schedule.every().friday.at('16:00').do(target,task_name=task_name)
+        schedule.every().sunday.at(CHECK_TIME).do(target,task_name=task_name)
         self.task_list.append(task_name)
 
-    def add_everyday_task(self,task_name,time='8:30',target=None):
+    def add_everyday_task(self,task_name,time=None,target=None):
         """
         add everyday task to schedule and task_list
         :param task_name:
@@ -34,13 +35,12 @@ class TaskSchedule(threading.Thread):
         :param target:
         :return:
         """
-        schedule.every().day.at(time).do(target,task_name=task_name)
-        self.task_list.append(task_name)
+        schedule.every().day.at(time).do(target,task_name)
+        self.task_list.append(task_name,)
     def run(self):
         while True:
             schedule.run_pending()
             time.sleep(20)
-
 
 
 

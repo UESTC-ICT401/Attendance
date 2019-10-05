@@ -18,7 +18,9 @@ from course import  Course
 class Windows(QMainWindow, Ui_MainWindow):
     #this signal is very important for communication between serial thread and UI thread
     recv_signal = pyqtSignal(str)
-    task_signal =pyqtSignal(str)
+    check_task_signal =pyqtSignal(str)
+    attendance_task_signal = pyqtSignal(str)
+
 
     def __init__(self):
         super(Windows, self).__init__()
@@ -30,6 +32,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.init_com_obj()
         #default wiget is the swipe wiget
         self.open_swipe_windows()
+        self.init_task()
 
     def signal_slot_connect(self):
         """
@@ -51,12 +54,13 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.log.info_out('开启定时任务')
         self.task_schedule = TaskSchedule()
         self.task_schedule.add_weekday_task(task_name='clean_course',target=self.time_task_callback)
-        self.task_schedule.add_everyday_task(task_name='morning_attendance',
-                                             target=self.time_task_callback,time=MORINING_TIME)
-        self.task_schedule.add_everyday_task(task_name='afternoon_attendance',
-                                             target=self.time_task_callback,time=AFTERNOON_TIME)
-        self.task_schedule.add_everyday_task(task_name='evening_attendance',
-                                             target=self.time_task_callback,time=EVENING_TIME)
+        self.task_schedule.add_everyday_task(task_name='set_late',
+                                             target=self.time_task_callback,time=MORINING_ATTENDANCE_TIME)
+        self.task_schedule.add_everyday_task(task_name='set_late',
+                                             target=self.time_task_callback,time=AFTERNOON_ATTENDANCE_TIME)
+        self.task_schedule.add_everyday_task(task_name='set_late',
+                                             target=self.time_task_callback,time=EVENING_ATTENDANCE_TIME)
+        self.task_schedule.start()
 
     def init_com_obj(self):
         """
@@ -87,8 +91,15 @@ class Windows(QMainWindow, Ui_MainWindow):
         :param task_name:
         :return:
         """
+        print('发送信号')
         self.log.info_out('定时任务:{}'.format(task_name))
-        self.task_signal.emit(task_name)
+        if task_name == 'clean_course':
+            self.check_task_signal.emit(task_name)
+            return
+        if task_name == 'set_late':
+            self.attendance_task_signal.emit(task_name)
+            return
+
 
     def open_register_windows(self):
         """
@@ -106,7 +117,6 @@ class Windows(QMainWindow, Ui_MainWindow):
         for i in range(self.gridLayout_widget.count()):
             self.gridLayout_widget.itemAt(i).widget().deleteLater()
         self.student_register.load_team_info(CHARGE_PERSONS)
-
         self.student_register.load_course_info()
         self.gridLayout_widget.addWidget(self.student_register)
 
@@ -126,8 +136,8 @@ class Windows(QMainWindow, Ui_MainWindow):
             self.gridLayout_widget.itemAt(i).widget().deleteLater()
         self.student_swipe.load_team_info(CHARGE_PERSONS)
         self.gridLayout_widget.addWidget(self.student_swipe)
-        # self.call_func=self.student_swipe.read_rfid
-
+        #connect slot
+        self.attendance_task_signal.connect(self.student_swipe.check_late)
 
     def open_com_windows(self):
         """
@@ -141,8 +151,6 @@ class Windows(QMainWindow, Ui_MainWindow):
             self.com_win.show()
         else:
             QMessageBox.information(self, "错误!", "未发现读写器，请检查读写器连接!!!", QMessageBox.Yes)
-
-
 
     def change_com(self,com_name):
         """
