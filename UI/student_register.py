@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2019/9/27 21:18
-# @Author  : zwenc
+# @Author  : zwenc,liuxin
 # @File    : student_register.py
 
 from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
@@ -43,31 +43,49 @@ class StudentRegister(QWidget,Ui_student_register):
 
     def register(self, bool):
         student_name = self.lineEdit_student_name.text()
-        student_number = self.lineEdit_student_number.text()
+        student_ID = self.lineEdit_student_number.text()
         student_IdCard = self.lineEdit_student_IdCard.text()
         student_permission = self.comboBox_permission.currentText()
         team = self.comboBox_team.currentText()
-        course_checked = '0'
+        course_checked = []
         tablewidget_len = self.tableWidget_class_check.rowCount() - 1
 
         for i in range(tablewidget_len):
             if self.tableWidget_class_check.cellWidget(i,0).isChecked():
                 course_checked.append(i)
-        args = Student(student_number,student_name,team,student_permission,student_IdCard,course_checked)
-        self.log.info_out(args)
-        self.register_stu_sql(args)
+        stu = Student(stuID=student_ID,
+                      name=student_name,
+                      team=team,
+                      rfid=student_IdCard,
+                      permission=student_permission,
+                      registered_course=str(course_checked))
+        self.log.info_out(stu)
+        if not self.check_student_info(stu):#if infomation is no
+            return
+        self.register_stu_sql(stu,course_checked)
 
-    def load_course_info(self, list_course):
+    def load_course_info(self):
         """
         :param list_course: ["语文","数学"]
         :return: error num
         """
-        if isinstance(list_course,list) != True:
+        course_list=[]
+        course_operate = CourseOperate()
+        self.course_obj_list, result = course_operate.search_course()
+
+        if result:
+            self.log.info_out("注册：导入课程表")
+            for corse_obj in self.course_obj_list:
+                course_list.append(corse_obj['course_name'])
+        else:
+            self.log.info_out("注册：{}".format(result))
+            return
+        if isinstance(course_list,list) != True:
             return None
 
-        self.tableWidget_class_check.setRowCount(len(list_course) + 1)
+        self.tableWidget_class_check.setRowCount(len(course_list) + 1)
 
-        for index,(course_name) in enumerate(list_course):
+        for index,(course_name) in enumerate(course_list):
             checkbox_item = QCheckBox()
             course_name_item = QTableWidgetItem(course_name)
             button_delete_item = QPushButton()
@@ -78,7 +96,7 @@ class StudentRegister(QWidget,Ui_student_register):
 
         button_add_course = QPushButton()
         button_add_course.setText("添加课程")
-        self.tableWidget_class_check.setCellWidget(len(list_course),2,button_add_course)
+        self.tableWidget_class_check.setCellWidget(len(course_list),2,button_add_course)
 
     def load_team_info(self, list_team):
         """
@@ -88,14 +106,15 @@ class StudentRegister(QWidget,Ui_student_register):
         for index,(team) in enumerate(list_team):
             self.comboBox_team.addItem(team)
 
-    def get_student_info(self):
+    def check_student_info(self,stu):
         """
         :return: student info
         """
-        if self.student == None:
-            QMessageBox.warning(self, "warning", "学生信息填写不完整")
-            return
-        return self.student
+        for value in stu.stu_dict.values():
+            if not value:
+                QMessageBox.warning(self, "warning", "学生信息填写不完整")
+                return False
+        return True
 
     def connect_signal_slot(self):
         """
@@ -108,15 +127,31 @@ class StudentRegister(QWidget,Ui_student_register):
         # print(msg)
         self.lineEdit_student_IdCard.setText(rfid)
 
-    def register_stu_sql(self,args):
+    def register_stu_sql(self,stu,course_checked):
         try:
-            self.stu_info_operate=StuInfoOperate(args)
+            self.stu_info_operate=StuInfoOperate(stu)
         except Exception as e:
             QMessageBox.information(self, "错误!", "数据库连接失败!!!", QMessageBox.Yes)
             self.log.info_out('学生注册：{}'.format(e))
             return
-        msg=self.stu_info_operate.insert_stu()
-        self.log.info_out('学生注册：{}'.format(msg))
+        info,reslut=self.stu_info_operate.insert_stu()
+        if not reslut:
+            self.log.info_out('学生注册：学生插入信息{}'.format(info))
+            return
+        values_list = []
+        for i in course_checked:
+            values_tuple = (stu['stuID'], stu['name'],
+                            self.course_obj_list[i]['course_id'],
+                            self.course_obj_list[i]['course_name'])
+            values_list.append(values_tuple)
+        VALUES=",".join(str(i) for i in values_list)
+        sql ='INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES {}'.format(VALUES)
+        #sql="INSERT INTO stu_course_mapping_table (stuID,name,course_id,course_name) VALUES ('201922011425', '刘鑫', '1255', 'python程序设计'),('201922011425', '刘鑫', '1245', 'C++程序设计')"
+        info,reslut=self.stu_info_operate.excute_cmd(sql)
+        if reslut:
+            self.log.info_out('学生注册：注册成功')
+        else:
+            QMessageBox.information(self, "错误!", "插入失败!!!{}".format(info), QMessageBox.Yes)
         #close connect of mysql
         self.stu_info_operate.close_db()
 

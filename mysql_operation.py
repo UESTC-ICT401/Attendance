@@ -11,6 +11,7 @@ import time
 import pymysql
 import xlwt
 from student import Student
+from course import Course
 
 class SqlOperate(object):
     """
@@ -118,8 +119,9 @@ class SqlOperate(object):
         try:
             cursor = self.db.cursor()
             cursor.execute(sql)
-            results = cursor.fetchall()
-            return results,True
+            self.db.commit()
+            info = cursor.fetchall()
+            return info,True
         except Exception  as e:
             return e,False
 
@@ -143,8 +145,8 @@ class StuInfoOperate(SqlOperate):
         insert new student into `stu_info_table`
         :return:
         """
-        msg=self.insert_data('stu_info_table',self.stu.stu_dict)
-        return msg
+        info,reslut=self.insert_data('stu_info_table',self.stu.stu_dict)
+        return info,reslut
 
     def search_stu(self,stuID=None,rfid=None):
         """
@@ -243,14 +245,13 @@ class CourseOperate(SqlOperate):
     """
 
     """
-    def __init__(self,course,db=None):
+    def __init__(self,db=None):
         if db is not None:    #actually, if we didn't create a db object,we need create a new by calling sql_operate.__init__()
             self.db=db
         else:
             super().connect_sql()
-        self.course =course
 
-    def insert_course(self):
+    def insert_course(self,course):
         msg=self.insert_data('stu_course_mapping_table',self.course)
         # return msg
 
@@ -260,6 +261,34 @@ class CourseOperate(SqlOperate):
         WHERE DATE(NOW()) BETWEEN start_date AND end_date')
         return msg,reslut
 
+    def search_course(self):
+        course_obj_list=[]
+        sql='SELECT * FROM course_table WHERE effectiveness = 1'
+        info,reslut=self.excute_cmd(sql)
+        if reslut:
+            for course in info:
+                course_obj = Course(course_id=course[1],
+                                    course_name=course[2],
+                                    start_date=course[3].strftime("%Y-%m-%d"),
+                                    end_date=course[4].strftime("%Y-%m-%d"),
+                                    lesson_weekday= course[5],
+                                    start_time=str(course[6]),
+                                    end_time=str(course[7]),
+                                    effectiveness=course[8])
+                course_obj_list.append(course_obj)
+            return course_obj_list,reslut
+        else:
+            return info,reslut
+
+
+
+
+
+
+
+# course_operate =CourseOperate()
+# course_list,result=course_operate.search_course()
+# print(course_list[0]['start_time'])
 
 
 

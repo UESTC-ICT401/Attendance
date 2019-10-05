@@ -11,6 +11,7 @@ from log_output import Mylog
 from serial_read import Serial
 from task_schedule import TaskSchedule
 from global_value import *
+from course import  Course
 
 
 
@@ -64,7 +65,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         """
         self.ser= Serial(target=self.serial_callback,args='')
         com_list=self.ser.search_port()
-        if com_list[0][0]:
+        if com_list:
             msg=self.ser.port_init(com_list[0][0],bps=9600)
             self.log.info_out('串口初始化:{}'.format(msg))
             self.ser.start()
@@ -105,6 +106,8 @@ class Windows(QMainWindow, Ui_MainWindow):
         for i in range(self.gridLayout_widget.count()):
             self.gridLayout_widget.itemAt(i).widget().deleteLater()
         self.student_register.load_team_info(CHARGE_PERSONS)
+
+        self.student_register.load_course_info()
         self.gridLayout_widget.addWidget(self.student_register)
 
     def open_swipe_windows(self):
