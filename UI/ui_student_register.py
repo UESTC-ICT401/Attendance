@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_student_register(object):
     def setupUi(self, student_register):
         student_register.setObjectName("student_register")
-        student_register.resize(625, 434)
+        student_register.resize(546, 454)
         student_register.setStyleSheet("")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(student_register)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -94,7 +94,6 @@ class Ui_student_register(object):
         self.tableWidget_class_check.setRowCount(0)
         self.verticalLayout_6.addWidget(self.tableWidget_class_check)
         self.horizontalLayout_2.addWidget(self.widget_2)
-        self.horizontalLayout_2.setStretch(1, 2)
 
         self.retranslateUi(student_register)
         self.pushButton_register.clicked['bool'].connect(student_register.register)

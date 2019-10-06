@@ -7,6 +7,7 @@ from UI.ui_mainWin import Ui_MainWindow
 from UI.student_register import StudentRegister
 from UI.com import ComWindows
 from UI.student_swipe import StudentSwipe
+from UI.course_add import CourseAdd
 from log_output import Mylog
 from serial_read import Serial
 from task_schedule import TaskSchedule
@@ -20,7 +21,6 @@ class Windows(QMainWindow, Ui_MainWindow):
     recv_signal = pyqtSignal(str)
     check_task_signal =pyqtSignal(str)
     attendance_task_signal = pyqtSignal(str)
-
 
     def __init__(self):
         super(Windows, self).__init__()
@@ -44,6 +44,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.actionRegister.triggered.connect(self.open_register_windows)
         self.actionCOM.triggered.connect(self.open_com_windows)
         self.actionSwipe.triggered.connect(self.open_swipe_windows)
+        self.actionCourseRegister.triggered.connect(self.open_course_register_windows)
         # self.actionregister.triggered.connect()
 
     def init_task(self):
@@ -91,7 +92,6 @@ class Windows(QMainWindow, Ui_MainWindow):
         :param task_name:
         :return:
         """
-        print('发送信号')
         self.log.info_out('定时任务:{}'.format(task_name))
         if task_name == 'clean_course':
             self.check_task_signal.emit(task_name)
@@ -151,6 +151,18 @@ class Windows(QMainWindow, Ui_MainWindow):
             self.com_win.show()
         else:
             QMessageBox.information(self, "错误!", "未发现读写器，请检查读写器连接!!!", QMessageBox.Yes)
+
+    def open_course_register_windows(self):
+        """
+        open register window
+        delete all widgets of gridLayout_widget,and recreate register obj ,add this widget on gridLayout_widget
+        :return:
+        """
+        self.log.info_out('课程注册：开启注册界面！')
+        self.course_add = CourseAdd(self.log)
+        for i in range(self.gridLayout_widget.count()):
+            self.gridLayout_widget.itemAt(i).widget().deleteLater()
+        self.gridLayout_widget.addWidget(self.course_add)
 
     def change_com(self,com_name):
         """

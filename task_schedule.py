@@ -24,7 +24,7 @@ class TaskSchedule(threading.Thread):
         :param target: callback function
         :return:
         """
-        schedule.every().sunday.at(CHECK_TIME).do(target,task_name=task_name)
+        schedule.every().monday.at(CHECK_TIME).do(target,task_name=task_name)
         self.task_list.append(task_name)
 
     def add_everyday_task(self,task_name,time=None,target=None):

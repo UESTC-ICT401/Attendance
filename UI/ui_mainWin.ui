@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/liuxin/.designer/backup/picture/icon.png</normaloff>C:/Users/liuxin/.designer/backup/picture/icon.png</iconset>
+    <normaloff>picture/icon.png</normaloff>picture/icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -47,6 +47,7 @@
     <addaction name="actionRegister"/>
     <addaction name="actionCOM"/>
     <addaction name="actionSwipe"/>
+    <addaction name="actionCourseRegister"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -69,6 +70,11 @@
   <action name="actionSwipe">
    <property name="text">
     <string>Swipe</string>
+   </property>
+  </action>
+  <action name="actionCourseRegister">
+   <property name="text">
+    <string>CourseRegister</string>
    </property>
   </action>
  </widget>

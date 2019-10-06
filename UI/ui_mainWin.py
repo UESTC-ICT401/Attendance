@@ -39,9 +39,12 @@ class Ui_MainWindow(object):
         self.actionCOM.setObjectName("actionCOM")
         self.actionSwipe = QtWidgets.QAction(MainWindow)
         self.actionSwipe.setObjectName("actionSwipe")
+        self.actionCourseRegister = QtWidgets.QAction(MainWindow)
+        self.actionCourseRegister.setObjectName("actionCourseRegister")
         self.menu.addAction(self.actionRegister)
         self.menu.addAction(self.actionCOM)
         self.menu.addAction(self.actionSwipe)
+        self.menu.addAction(self.actionCourseRegister)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
@@ -56,4 +59,5 @@ class Ui_MainWindow(object):
         self.actionRegister.setText(_translate("MainWindow", "Register"))
         self.actionCOM.setText(_translate("MainWindow", "COM"))
         self.actionSwipe.setText(_translate("MainWindow", "Swipe"))
+        self.actionCourseRegister.setText(_translate("MainWindow", "CourseRegister"))
 

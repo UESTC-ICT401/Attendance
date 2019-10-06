@@ -34,6 +34,9 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         for index,(team) in enumerate(list_team):
             self.comboBox_team.addItem(team)
 
+        with open("./UI/css/register.css","r") as css_file:
+            self.setStyleSheet(css_file.read())
+
     def connect_signal_slot(self):
         """
         connect qt signal and slot
@@ -45,8 +48,8 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         # self.check_late()
         now_localtime=time.localtime()
         now_time = time.strftime("%H:%M",now_localtime )
-        if not ((now_time < MORINING_ATTENDANCE_TIME )or (now_time >MORINING_END_TIME and now_time <AFTERNOON_START_TIME) or\
-            (now_time >AFTERNOON_END_TIME and now_time <EVENING_START_TIME)):
+        if not ((now_time < MORINING_ATTENDANCE_TIME )or (now_time >AFTERNOON_START_TIME and now_time <AFTERNOON_ATTENDANCE_TIME) or\
+            (now_time >EVENING_START_TIME and now_time <EVENING_ATTENDANCE_TIME)):
             self.textBrowser.append('打卡时间已过！你已迟到！')
             return
         self.log.info_out("考勤刷卡读取信息：{}".format(rfid))
@@ -73,8 +76,9 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         now_time = time.strftime("%H:%M", now_localtime)
         now_weekday = time.strftime("%a", now_localtime)
         #######################################################################
-        if now_weekday == ('Sunday' or 'Saturday'):
-            return
+        # if now_weekday == ('Sun' or 'Sat'):
+        #     self.log.info_out('检查迟到：{},取消打卡'.format(now_weekday))
+        #     return
         now_date = time.strftime("%Y-%m-%d ", now_localtime)
         if now_time>MORINING_START_TIME and  now_time<MORINING_START_TIME:
             start_time = now_date + MORINING_START_TIME
@@ -171,9 +175,12 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             self.log.info_out('提取数据：连接数据成功')
         except Exception as e:
             self.log.debuf_out('提取数据:{}'.format(e))
-        msg,mysql_data,all_fileds= record_operate.search_record(time_range=(start_time,end_time),name=student_name,
-                                                                team=student_team,islate=0)
-        self.log.info_out(msg)
+        mysql_data,all_fileds,reslut= record_operate.search_record(time_range=(start_time,end_time),name=student_name,
+                                                                   team=student_team, islate=0)
+        if reslut:
+            self.log.info_out('查询记录：查询数据成功!')
+        else:
+            return
         record_operate.close_db()
         file_name =time.strftime("%Y-%m-%d", time.localtime())+'.xls'
         try:
@@ -182,4 +189,4 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             self.log.info_out('提取数据：成功！')
         except Exception as e:
             QMessageBox.information(self, "错误!", "错误原因：{}".format(e), QMessageBox.Yes)
-            self.log.debuf_out('提取数据:.{}'.format(e))
+            self.log.info_out('提取数据:{}'.format(e))

@@ -27,12 +27,12 @@ class StudentRegister(QWidget,Ui_student_register):
 
     def init_layout(self):
         self.pushButton_register.setFont(QtGui.QFont('Microsoft YaHei', 20))
-        self.tableWidget_class_check.setColumnCount(3)
+        self.tableWidget_class_check.setColumnCount(2)
         self.tableWidget_class_check.verticalHeader().setVisible(False)
         self.tableWidget_class_check.horizontalHeader().setStretchLastSection(True)
         self.tableWidget_class_check.setColumnWidth(0,100)
-        self.tableWidget_class_check.setColumnWidth(1,200)
-        self.tableWidget_class_check.setHorizontalHeaderLabels(["选择","课程名","操作"])
+        self.tableWidget_class_check.setColumnWidth(1,100)
+        self.tableWidget_class_check.setHorizontalHeaderLabels(["选择","课程名"])
 
         self.comboBox_permission.addItem("5")
         self.comboBox_permission.addItem("4")
@@ -89,10 +89,10 @@ class StudentRegister(QWidget,Ui_student_register):
             checkbox_item = QCheckBox()
             course_name_item = QTableWidgetItem(course_name)
             button_delete_item = QPushButton()
-            button_delete_item.setText("删除课程")
+            # button_delete_item.setText("删除课程")
             self.tableWidget_class_check.setCellWidget(index,0,checkbox_item)
             self.tableWidget_class_check.setItem(index,1,course_name_item)
-            self.tableWidget_class_check.setCellWidget(index,2,button_delete_item)
+            # self.tableWidget_class_check.setCellWidget(index,2,button_delete_item)
 
         button_add_course = QPushButton()
         button_add_course.setText("添加课程")
@@ -151,6 +151,7 @@ class StudentRegister(QWidget,Ui_student_register):
             info,reslut=self.stu_info_operate.excute_cmd(sql)
             if reslut:
                 self.log.info_out('学生注册：注册成功')
+                QMessageBox.information(self, "信息", "注册成功!!!", QMessageBox.Yes)
             else:
                 QMessageBox.information(self, "错误!", "插入失败!!!{}".format(info), QMessageBox.Yes)
         #close connect of mysql

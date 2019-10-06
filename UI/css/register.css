@@ -1,15 +1,16 @@
 QWidget{
     background-color: rgb(237, 248, 255);
+    color: black;
 }
 
 QPushButton{
     color:rgb(0,0,0);
-    background-color:#acffaf;
+    background-color:rgb(53,151,217);
     border-radius:10px;
 }
 
 QPushButton:hover{
-    background-color:#c4ffdf;
+    background-color:#acffaf;
 }
 
 QPushButton:pressed{
@@ -24,8 +25,7 @@ border-radius: 4px;
 }
 
 QLineEdit::hover {
-    color:green;
-    border-color:rgb(50,180,40);
+    color:blue;
 }
 
 QCheckBox
@@ -62,7 +62,4 @@ QHeaderView::section{
     margin-left:0px;
     padding-left:0px;
 }
-
-
-
 

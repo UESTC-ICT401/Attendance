@@ -13,6 +13,7 @@ import xlwt
 from student import Student
 from course import Course
 
+
 class SqlOperate(object):
     """
     the class is used for connect mysql and execute sql command
@@ -225,8 +226,8 @@ class RecordOperate(SqlOperate):
             condition_team="team='{}'".format(team)
         if islate is not None:
             condition_islate="islate='{}'".format(islate)
-        msg,returns,all_fields=self.search_data('record_table',condition_time,condition_name,condition_team,condition_islate)
-        return msg,returns,all_fields
+        info,all_fields,returns=self.search_data('record_table',condition_time,condition_name,condition_team,condition_islate)
+        return info,all_fields,returns
 
     def mysql2excel(self,mysql_data=None,all_fields=None,file_name=None):
         excel = xlwt.Workbook()
@@ -252,8 +253,8 @@ class CourseOperate(SqlOperate):
             super().connect_sql()
 
     def insert_course(self,course):
-        msg=self.insert_data('stu_course_mapping_table',self.course)
-        # return msg
+        info,reslut=self.insert_data('course_table',course.course_dict)
+        return info,reslut
 
     def update_course_effectiveness(self):
         msg,reslut=self.excute_cmd('UPDATE course_table SET effectiveness =0')
@@ -267,14 +268,14 @@ class CourseOperate(SqlOperate):
         info,reslut=self.excute_cmd(sql)
         if reslut:
             for course in info:
-                course_obj = Course(course_id=course[1],
-                                    course_name=course[2],
-                                    start_date=course[3].strftime("%Y-%m-%d"),
-                                    end_date=course[4].strftime("%Y-%m-%d"),
-                                    lesson_weekday= course[5],
-                                    start_time=str(course[6]),
-                                    end_time=str(course[7]),
-                                    effectiveness=course[8])
+                course_obj = Course(course_id=course[0],
+                                    course_name=course[1],
+                                    start_date=course[2].strftime("%Y-%m-%d"),
+                                    end_date=course[3].strftime("%Y-%m-%d"),
+                                    lesson_weekday= course[4],
+                                    start_time=str(course[5]),
+                                    end_time=str(course[6]),
+                                    effectiveness=course[7])
                 course_obj_list.append(course_obj)
             return course_obj_list,reslut
         else:
