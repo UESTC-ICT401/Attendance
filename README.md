@@ -12,7 +12,7 @@
 
 #### 注册界面
 
-<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365430311.png" alt="1570365430311" style="zoom:80%;" />
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365430311.png" alt="1570365430311" style="zoom:60%;" />
 
 #### 课程注册界面
 
