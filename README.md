@@ -2,6 +2,28 @@
 
 此程序为电子科技大学宜宾研究院信通401考勤程序，具有学生信息录入，RFID卡号读取，课程表录入，并==依据课程表对学生进行教研室考勤，自动标记无课同学迟到或未到的同学==。
 
+## 界面预览
+
+#### 平时打卡界面
+
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365331368.png" alt="1570365331368" style="zoom: 80%;" />
+
+
+
+#### 注册界面
+
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365430311.png" alt="1570365430311" style="zoom:80%;" />
+
+#### 课程注册界面
+
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365470730.png" alt="1570365470730" style="zoom:80%;" />
+
+#### 菜单选择项
+
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365503871.png" alt="1570365503871" style="zoom:80%;" />
+
+
+
 ## 上手指南
 
 ### 安装要求
