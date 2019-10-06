@@ -1,6 +1,6 @@
 # **Attendance**
 
-此程序为电子科技大学宜宾研究院信通401考勤程序，具有学生信息录入，RFID卡号读取，课程表录入，并依据课程表对学生进行教研室考勤，自动标记迟到或未到的同学。
+此程序为电子科技大学宜宾研究院信通401考勤程序，具有学生信息录入，RFID卡号读取，课程表录入，并==依据课程表对学生进行教研室考勤，自动标记无课同学迟到或未到的同学==。
 
 ## 上手指南
 
@@ -8,14 +8,38 @@
 
 二次开发者：
 
-1. mysql
-2. python+pymysq+pyqt5
+1. mysql5.7
+2. python3.6+pymysq+pyqt5
+3. 自建数据库与表格
 
 401使用者：
 
-
+1. 校园卡
 
 ### 数据库构成
+
+| 数据库名                     | attendance_schema_401 |
+| ---------------------------- | --------------------- |
+| 表(record_table)             | 考勤记录表            |
+| 表(course_table)             | 课程信息表            |
+| 表(stu_info_table)           | 学生信息表            |
+| 表(stu_course_mapping_table) | 学生-课程映射表       |
+
+#### course_table
+
+![1570361651748](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361651748.png)
+
+#### record_table
+
+![1570361693323](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361693323.png)
+
+####  stu_info_table
+
+![1570361734165](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361734165.png)
+
+#### stu_course_mapping_table
+
+![1570361785355](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361785355.png)
 
 
 
@@ -55,11 +79,17 @@ sql语句：
                 )'''.format(start_time,end_time,now_weekday)
 ```
 
+2019/10/6 19:17 加入课程注册功能，测试后添加了所有课程至数据库。自此，信通401考勤系统主体功能基本实现。开始进行内测。
+
+
+
 
 
 *郑文：*
 
 2019/9/28 14:30: 添加register界面，包含用户信息，课表信息的显示
+
+2019/10/6 11:20：添加课程注册界面
 
 ## 作者
 
