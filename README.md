@@ -27,19 +27,19 @@
 
 #### course_table
 
-![1570361651748](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361651748.png)
+![1570361651748](E:\UESTC\考勤程序\Attendance\1570361651748.png)
 
 #### record_table
 
-![1570361693323](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361693323.png)
+![1570361693323](E:\UESTC\考勤程序\Attendance\1570361693323.png)
 
 ####  stu_info_table
 
-![1570361734165](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361734165.png)
+![1570361734165](E:\UESTC\考勤程序\Attendance\1570361734165.png)
 
 #### stu_course_mapping_table
 
-![1570361785355](C:\Users\liuxin\AppData\Roaming\Typora\typora-user-images\1570361785355.png)
+![1570361785355](E:\UESTC\考勤程序\Attendance\1570361785355.png)
 
 
 
