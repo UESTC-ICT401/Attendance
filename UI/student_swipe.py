@@ -76,9 +76,9 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         now_time = time.strftime("%H:%M", now_localtime)
         now_weekday = time.strftime("%a", now_localtime)
         #######################################################################
-        # if now_weekday == ('Sun' or 'Sat'):
-        #     self.log.info_out('检查迟到：{},取消打卡'.format(now_weekday))
-        #     return
+        if now_weekday == ('Sun' or 'Sat'):
+            self.log.info_out('检查迟到：{},取消打卡'.format(now_weekday))
+            return
         now_date = time.strftime("%Y-%m-%d ", now_localtime)
         if now_time>MORINING_START_TIME and  now_time<MORINING_START_TIME:
             start_time = now_date + MORINING_START_TIME
