@@ -33,13 +33,10 @@ class CourseAdd(QWidget, Ui_course_add):
 
         # 初始化周数
         for index in range(20):
-            self.comboBox_weeks.addItem(str(index + 1) + "周")
-        self.comboBox_weeks.setCurrentIndex(11)
-
-        dt = datetime.now()
-        # 初始化日期
-        self.dateEdit_startdate.setDate(QDate(dt.year, dt.month, dt.day))
-        self.dateEdit_startdate.setCalendarPopup(True)
+            self.comboBox_startWeeks.addItem("第 "+str(index + 1) + " 周")
+            self.comboBox_endWeeks.addItem("第 "+ str(index + 1) + " 周")
+        self.comboBox_startWeeks.setCurrentIndex(0)
+        self.comboBox_endWeeks.setCurrentIndex(11)
 
         # 初始化时间
         self.timeEdit_startTime.setTime(QTime(8,30,0))

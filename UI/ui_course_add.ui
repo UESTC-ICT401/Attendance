@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>364</width>
+    <width>374</width>
     <height>338</height>
    </rect>
   </property>
@@ -46,7 +46,7 @@
           </size>
          </property>
          <property name="text">
-          <string>开始日期：</string>
+          <string>开始周数：</string>
          </property>
         </widget>
        </item>
@@ -59,7 +59,7 @@
           </size>
          </property>
          <property name="text">
-          <string>持续周数：</string>
+          <string>结束周数：</string>
          </property>
         </widget>
        </item>
@@ -123,7 +123,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="dateEdit_startdate">
+        <widget class="QComboBox" name="comboBox_startWeeks">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -133,7 +133,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="comboBox_weeks">
+        <widget class="QComboBox" name="comboBox_endWeeks">
          <property name="minimumSize">
           <size>
            <width>0</width>
