@@ -31,15 +31,15 @@
 
 #### record_table
 
-![1570361693323](E:\UESTC\考勤程序\Attendance\1570361693323.png)
+![1570361693323](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361693323.png)
 
 ####  stu_info_table
 
-![1570361734165](E:\UESTC\考勤程序\Attendance\1570361734165.png)
+![1570361734165](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361734165.png)
 
 #### stu_course_mapping_table
 
-![1570361785355](E:\UESTC\考勤程序\Attendance\1570361785355.png)
+![1570361785355](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361785355.png)
 
 
 
