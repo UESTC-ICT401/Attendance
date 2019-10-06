@@ -27,7 +27,7 @@
 
 #### course_table
 
-![1570361651748](E:\UESTC\考勤程序\Attendance\1570361651748.png)
+![1570361651748](https://github.com/UESTC-ICT401/Attendance/edit/master/1570361651748.png)
 
 #### record_table
 
