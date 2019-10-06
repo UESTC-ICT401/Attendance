@@ -38,6 +38,9 @@ class CourseAdd(QWidget, Ui_course_add):
         self.comboBox_startWeeks.setCurrentIndex(0)
         self.comboBox_endWeeks.setCurrentIndex(11)
 
+        for index in range(7):
+            self.comboBox_weekDate.addItem("星期 " + str(index + 1))
+
         # 初始化时间
         self.timeEdit_startTime.setTime(QTime(8,30,0))
         self.timeEdit_startTime.setCalendarPopup(True)
