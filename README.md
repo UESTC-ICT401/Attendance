@@ -12,15 +12,15 @@
 
 #### 注册界面
 
-<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365430311.png" alt="1570365430311" style="zoom:60%;" />
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570365430311.png" alt="1570365430311" style="zoom:60%;" />
 
 #### 课程注册界面
 
-<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365470730.png" alt="1570365470730" style="zoom:80%;" />
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570365470730.png" alt="1570365470730" style="zoom:80%;" />
 
 #### 菜单选择项
 
-<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365503871.png" alt="1570365503871" style="zoom:80%;" />
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570365503871.png" alt="1570365503871" style="zoom:80%;" />
 
 
 
@@ -49,19 +49,19 @@
 
 #### course_table
 
-![1570361651748](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361651748.png)
+![1570361651748](https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570361651748.png)
 
 #### record_table
 
-![1570361693323](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361693323.png)
+![1570361693323](https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570361693323.png)
 
 ####  stu_info_table
 
-![1570361734165](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361734165.png)
+![1570361734165](https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570361734165.png)
 
 #### stu_course_mapping_table
 
-![1570361785355](https://github.com/UESTC-ICT401/Attendance/blob/master/1570361785355.png)
+![1570361785355](https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570361785355.png)
 
 
 
