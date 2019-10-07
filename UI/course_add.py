@@ -22,6 +22,13 @@ class CourseAdd(QWidget, Ui_course_add):
         self.init_ui()
         self.start_week_date =QDate.fromString(FIRST_WEEK_DATE,"yyyy-MM-dd")
 
+
+    # def set_background(self):
+    #
+    #     palette1 = QPalette(self)
+    #     palette1.setBrush(self.backgroundRole(), QBrush(QPixmap('./UI/picture/ground.jpeg')))   # 设置背景图片
+    #     self.setPalette(palette1)
+
     def init_ui(self):
         # 借用 注册界面的css文件，懒得重新写过一个了。
         if __name__ == "__main__":

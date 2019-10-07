@@ -94,6 +94,8 @@ class Ui_student_register(object):
         self.tableWidget_class_check.setRowCount(0)
         self.verticalLayout_6.addWidget(self.tableWidget_class_check)
         self.horizontalLayout_2.addWidget(self.widget_2)
+        self.horizontalLayout_2.setStretch(0, 4)
+        self.horizontalLayout_2.setStretch(1, 6)
 
         self.retranslateUi(student_register)
         self.pushButton_register.clicked['bool'].connect(student_register.register)

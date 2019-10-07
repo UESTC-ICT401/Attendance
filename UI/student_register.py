@@ -6,7 +6,7 @@
 from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
 from UI.ui_student_register import Ui_student_register
 from PyQt5.QtCore import Qt,pyqtSignal
-from PyQt5 import QtGui
+from PyQt5 import QtGui,QtWidgets
 from student import Student
 from log_output import Mylog
 from mysql_operation import *
@@ -16,6 +16,8 @@ class StudentRegister(QWidget,Ui_student_register):
     def __init__(self,log,target=None,args=None):
         super(StudentRegister, self).__init__()
         self.setupUi(self)
+        self.widget.setAttribute(Qt.WA_TranslucentBackground)
+        self.widget_2.setAttribute(Qt.WA_TranslucentBackground)
         self.init_layout()
         self.student = None
         self.log=log

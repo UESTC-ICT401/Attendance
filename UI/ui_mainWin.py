@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ICT401"))
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.menu_2.setTitle(_translate("MainWindow", "帮助"))
         self.actionRegister.setText(_translate("MainWindow", "Register"))

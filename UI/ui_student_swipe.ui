@@ -16,6 +16,9 @@
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
    <item>
     <widget class="QWidget" name="widget" native="true">
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,9">
@@ -33,6 +36,9 @@
             <pointsize>18</pointsize>
            </font>
           </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string>考勤记录</string>
           </property>
@@ -46,6 +52,9 @@
           <property name="enabled">
            <bool>true</bool>
           </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -55,6 +64,9 @@
    </item>
    <item>
     <widget class="QWidget" name="widget_2" native="true">
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,9">
@@ -71,6 +83,9 @@
             <family>Algerian</family>
             <pointsize>18</pointsize>
            </font>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
           </property>
           <property name="text">
            <string>记录提取</string>

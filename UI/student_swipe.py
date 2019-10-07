@@ -7,7 +7,7 @@
 """
 from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox,QFileDialog, QMainWindow, QGridLayout,QTableWidgetItem,QCheckBox,QPushButton)
 from PyQt5.QtCore import Qt,pyqtSignal
-from PyQt5 import QtGui
+from PyQt5 import QtGui,QtWidgets
 from UI.ui_student_swipe import Ui_Stu_Swipe
 from student import Student
 from log_output import Mylog
@@ -20,6 +20,11 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         super(StudentSwipe,self).__init__()
         self.log=log
         self.setupUi(self)
+        self.widget.setAttribute(Qt.WA_TranslucentBackground)
+        self.widget_2.setAttribute(Qt.WA_TranslucentBackground)
+        # op = QtWidgets.QGraphicsOpacityEffect()
+        # op.setOpacity(0.8)
+        # self.textBrowser.setGraphicsEffect(op)
         self.target=target
         self.args=args
         self.connect_signal_slot()
@@ -134,12 +139,12 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
 
 
 
-    def check_course_effectiv(self):
+    def check_courses(self):
         """
         check courses if effectivly
         :return:
         """
-        course_operate = CourseOperate(stu=None)
+        course_operate = CourseOperate()
         sql='UPDATE course_table SET effectiveness = 0'
         info, reslut = course_operate.excute_cmd(sql)
         sql = 'UPDATE course_table SET effectiveness =1 WHERE DATE(NOW()) BETWEEN start_date AND end_date'

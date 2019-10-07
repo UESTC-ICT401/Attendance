@@ -2,7 +2,15 @@ QWidget{
     background-color: rgb(237, 248, 255);
     color: black;
 }
-
+QTableWidget{
+    background-color:rgba(255,255,255,200);
+}
+QTextBrowser{
+    background-color:rgba(255,255,255,100);
+}
+QLabel{
+    background-color:rgba(255,255,255,150);
+}
 QPushButton{
     color:rgb(0,0,0);
     background-color:rgb(53,151,217);
