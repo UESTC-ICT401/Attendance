@@ -22,6 +22,7 @@ class Serial(threading.Thread):
         threading.Thread.__init__(self)
         self.target=target
         self.args  =args
+        self.stop_signal = False
 
     def search_port(self):
         """
@@ -39,7 +40,6 @@ class Serial(threading.Thread):
         :param timeout: default = 0.5,if timeout=0,reading will be set Blocking
         :return str.format(ser):the describ of the port
         """
-        self.stop_signal = False
         self.args=''
         self.ser_port = serial.Serial(port_name, bps, timeout=timeout)
         if not self.ser_port.is_open:
@@ -50,6 +50,9 @@ class Serial(threading.Thread):
     def close(self):
         self.ser_port.close()
 
+    def stop(self):
+        self.stop_signal=True
+
     def open(self):
         self.ser_port.open()
 
@@ -59,6 +62,8 @@ class Serial(threading.Thread):
         :return:
         """
         while True:
+            if  self.stop_signal:
+                return
             try:
                 self.args=self.ser_port.read(30).hex()
                 if self.target and self.args:

@@ -16,6 +16,10 @@ class TaskSchedule(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.task_list=[]
+        self.stop_signal = False
+
+    def stop(self):
+        self.stop_signal=True
 
     def add_weekday_task(self,task_name,target=None):
         """
@@ -39,6 +43,8 @@ class TaskSchedule(threading.Thread):
         self.task_list.append(task_name,)
     def run(self):
         while True:
+            if self.stop_signal:
+                return
             schedule.run_pending()
             time.sleep(20)
 

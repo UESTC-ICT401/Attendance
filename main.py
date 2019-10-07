@@ -37,6 +37,27 @@ class Windows(QMainWindow, Ui_MainWindow):
         self.open_swipe_windows()
         self.init_task()
 
+    def closeEvent(self, event):
+        """
+        重写closeEvent方法，实现dialog窗体关闭时执行一些代码
+        :param event: close()触发的事件
+        :return: None
+        """
+        reply = QtWidgets.QMessageBox.question(self,
+                                               '本程序',
+                                               "是否要退出程序？",
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                               QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            self.log.info_out('退出：QT线程退出')
+            self.ser.stop()
+            self.log.info_out('退出：串口线程设置退出')
+            self.task_schedule.stop()
+            self.log.info_out('退出：定时任务线程设置退出')
+            event.accept()
+        else:
+            event.ignore()
+
     def paintEvent(self, event):
         painter = QPainter()
         painter.begin(self)
