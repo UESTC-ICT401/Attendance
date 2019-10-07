@@ -6,7 +6,7 @@
 
 #### 平时打卡界面
 
-<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/1570365331368.png" alt="1570365331368" style="zoom: 80%;" />
+<img src="https://github.com/UESTC-ICT401/Attendance/blob/master/github_images/1570365331368.png" alt="1570365331368" style="zoom: 80%;" />
 
 
 
