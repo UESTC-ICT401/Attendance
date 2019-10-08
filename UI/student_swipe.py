@@ -79,21 +79,26 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
     def check_late(self):
         now_localtime = time.localtime()
         now_time = time.strftime("%H:%M", now_localtime)
-        now_weekday = time.strftime("%a", now_localtime)
+        now_weekday = time.strftime("%A", now_localtime)
         #######################################################################
-        if now_weekday == ('Sun' or 'Sat'):
+        if now_weekday == ('Sunday' or 'Saturday'):
             self.log.info_out('检查迟到：{},取消打卡'.format(now_weekday))
             return
         now_date = time.strftime("%Y-%m-%d ", now_localtime)
-        if now_time>MORINING_START_TIME and  now_time<MORINING_START_TIME:
+        # print(now_date)
+        if now_time>=MORINING_START_TIME and  now_time<=MORINING_END_TIME:
+
             start_time = now_date + MORINING_START_TIME
             end_time   =now_date +MORINING_END_TIME
-        elif now_time>AFTERNOON_START_TIME and now_time<AFTERNOON_END_TIME:
+            print('morning:{0}--{1}'.format(start_time,end_time))
+        elif now_time>=AFTERNOON_START_TIME and now_time<=AFTERNOON_END_TIME:
             start_time = now_date + AFTERNOON_START_TIME
             end_time   =now_date +AFTERNOON_END_TIME
+            # print('afternoon:{0}--{1}'.format(start_time, end_time))
         else:
             start_time = now_date + EVENING_START_TIME
             end_time   =now_date +EVENING_END_TIME
+            # print('evening:{0}--{1}'.format(start_time, end_time))
         # 这里必须要用中文了：此sql语句求出所有人当中，除了有课的同学以及已经在合理打卡时间段打过卡的同学以外，没有打卡的人
         #也就是迟到的人的学号，姓名，团队。
         sql = '''CREATE TABLE tmp AS  
@@ -110,6 +115,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
                     )
                 )'''.format(start_time,end_time,now_weekday)
         record_operate = RecordOperate(stu=None)
+        # print(sql)
         info,reslut=record_operate.excute_cmd(sql)
         if not reslut:
             self.log.info_out('搜索打卡记录并创建tmp表储存：{}'.format(info))

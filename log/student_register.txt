@@ -1,7 +1,4 @@
-Mon, 07 Oct 2019 13:55:47 log_output.py[line:42] INFO 初始化：开始运行
-Mon, 07 Oct 2019 13:55:47 log_output.py[line:42] INFO 串口初始化:specification of serial port：COM3
-Mon, 07 Oct 2019 13:55:47 log_output.py[line:42] INFO 打卡：开启打卡界面！
-Mon, 07 Oct 2019 13:55:47 log_output.py[line:42] INFO 开启定时任务
-Mon, 07 Oct 2019 13:55:49 log_output.py[line:42] INFO 退出：QT线程退出
-Mon, 07 Oct 2019 13:55:49 log_output.py[line:42] INFO 退出：串口线程设置退出
-Mon, 07 Oct 2019 13:55:49 log_output.py[line:42] INFO 退出：定时任务线程设置退出
+Tue, 08 Oct 2019 15:26:31 log_output.py[line:42] INFO 初始化：开始运行
+Tue, 08 Oct 2019 15:26:31 log_output.py[line:42] INFO 串口初始化:specification of serial port：COM3
+Tue, 08 Oct 2019 15:26:31 log_output.py[line:42] INFO 打卡：开启打卡界面！
+Tue, 08 Oct 2019 15:26:31 log_output.py[line:42] INFO 开启定时任务

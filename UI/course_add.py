@@ -14,7 +14,7 @@ from log_output import Mylog
 from global_value import *
 
 class CourseAdd(QWidget, Ui_course_add):
-    _weekday_tuple_=('Mon','Tues','Wed','Thur','Fri','Sat','Sun')
+    _weekday_tuple_=('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday')
     def __init__(self,log):
         super(CourseAdd, self).__init__()
         self.log = log
