@@ -21,7 +21,7 @@ class SqlOperate(object):
 
     __connectcmd__ = \
         {
-            'host': 'localhost',
+            'host': '192.168.3.11',
             'user': 'root',
             'passwd': '123',
             'db': 'attendance_schema_401',
@@ -219,7 +219,7 @@ class RecordOperate(SqlOperate):
         condition_team=' '
         condition_islate=' '
         if time_range is not None:
-            condition_time="time>'{0}' and time < '{1}'".format(time_range[0],time_range[1])
+            condition_time="time>='{0}' and time <= '{1}'".format(time_range[0],time_range[1])
         if name is not None:
             condition_name="name='{}'".format(name)
         if team is not None:
@@ -238,7 +238,7 @@ class RecordOperate(SqlOperate):
             table.write(0, i, all_fields[i][0])
         for i in range(row_number):
             for j in range(column_number):
-                table.write(i + 1, j, str(mysql_data[i][j]))
+                table.write(i + 1, j, mysql_data[i][j])
         excel.save(file_name)
 
 ##################################################################
@@ -264,7 +264,7 @@ class CourseOperate(SqlOperate):
 
     def search_course(self):
         course_obj_list=[]
-        sql='SELECT * FROM course_table WHERE effectiveness = 1'
+        sql='SELECT * FROM course_table'
         info,reslut=self.excute_cmd(sql)
         if reslut:
             for course in info:
@@ -285,11 +285,6 @@ class CourseOperate(SqlOperate):
 
 
 
-
-
-# course_operate =CourseOperate()
-# course_list,result=course_operate.search_course()
-# print(course_list[0]['start_time'])
 
 
 

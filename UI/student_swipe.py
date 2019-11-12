@@ -72,6 +72,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             record_operate=RecordOperate(stu=stu,db=self.stu_info_operate.db)
             info,reslut=record_operate.insert_record(islate=0)
             if reslut:
+                self.textBrowser.append('time:{}'.format(time.strftime("%Y-%m-%d %H:%M:%S", now_localtime)))
                 self.textBrowser.append('{},今天要加油哟！'.format(stu['name']))
                 self.log.info_out('考勤记录插入：{}'.format(info))
             record_operate.close_db()
@@ -81,7 +82,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         now_time = time.strftime("%H:%M", now_localtime)
         now_weekday = time.strftime("%A", now_localtime)
         #######################################################################
-        if now_weekday == ('Sunday' or 'Saturday'):
+        if now_weekday in ['Sunday','Saturday']:
             self.log.info_out('检查迟到：{},取消打卡'.format(now_weekday))
             return
         now_date = time.strftime("%Y-%m-%d ", now_localtime)
@@ -90,7 +91,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
 
             start_time = now_date + MORINING_START_TIME
             end_time   =now_date +MORINING_END_TIME
-            print('morning:{0}--{1}'.format(start_time,end_time))
+            # print('morning:{0}--{1}'.format(start_time,end_time))
         elif now_time>=AFTERNOON_START_TIME and now_time<=AFTERNOON_END_TIME:
             start_time = now_date + AFTERNOON_START_TIME
             end_time   =now_date +AFTERNOON_END_TIME
@@ -183,11 +184,12 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         end_time   = self.dateEdit_endtime.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         try:
             record_operate = RecordOperate(stu=None, db=None)
+            print(record_operate)
             self.log.info_out('提取数据：连接数据成功')
         except Exception as e:
             self.log.debuf_out('提取数据:{}'.format(e))
         mysql_data,all_fileds,reslut= record_operate.search_record(time_range=(start_time,end_time),name=student_name,
-                                                                   team=student_team, islate=0)
+                                                                   team=student_team)
         if reslut:
             self.log.info_out('查询记录：查询数据成功!')
         else:
@@ -198,6 +200,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
             record_operate.mysql2excel(mysql_data,all_fileds,file_name)
             QMessageBox.information(self, "消息", "提取成功！", QMessageBox.Yes)
             self.log.info_out('提取数据：成功！')
+            self.textBrowser.append('提取数据：成功！')
         except Exception as e:
             QMessageBox.information(self, "错误!", "错误原因：{}".format(e), QMessageBox.Yes)
             self.log.info_out('提取数据:{}'.format(e))

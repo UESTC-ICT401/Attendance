@@ -46,7 +46,7 @@ class TaskSchedule(threading.Thread):
             if self.stop_signal:
                 return
             schedule.run_pending()
-            time.sleep(20)
+            time.sleep(5)
 
 
 

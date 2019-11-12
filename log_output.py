@@ -17,7 +17,7 @@ class Mylog(object):
                         format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                         datefmt='%a, %d %b %Y %H:%M:%S',
                         filename=logFilename,
-                        filemode='w')
+                        filemode='a')
         console = logging.StreamHandler()  # 定义console handler
         console.setLevel(logging.INFO)  # 定义该handler级别
         formatter = logging.Formatter('%(asctime)s  %(filename)s : %(levelname)s  %(message)s')  # 定义该handler格式

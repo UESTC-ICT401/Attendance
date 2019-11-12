@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QGridLayout)
+from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox, QMainWindow, QInputDialog)
 from PyQt5.QtCore import Qt,pyqtSignal
 from PyQt5.QtGui import QPixmap,QPalette,QBrush,QPainter
 import sys
@@ -43,18 +43,18 @@ class Windows(QMainWindow, Ui_MainWindow):
         :param event: close()触发的事件
         :return: None
         """
-        reply = QtWidgets.QMessageBox.question(self,
-                                               '本程序',
-                                               "是否要退出程序？",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
-            self.log.info_out('退出：QT线程退出')
-            self.ser.stop()
-            self.log.info_out('退出：串口线程设置退出')
-            self.task_schedule.stop()
-            self.log.info_out('退出：定时任务线程设置退出')
-            event.accept()
+        text, ok=QInputDialog.getText(self, 'Text Input Dialog', '输入密码：')
+        if ok and text:
+            if text ==CLOSE_PASSWORD:
+                self.log.info_out('退出：QT线程退出')
+                self.ser.stop()
+                self.log.info_out('退出：串口线程设置退出')
+                self.task_schedule.stop()
+                self.log.info_out('退出：定时任务线程设置退出')
+                event.accept()
+            else:
+                QMessageBox.warning(self, "警告对话框", "密码错误！", QMessageBox.Yes)
+                event.ignore()
         else:
             event.ignore()
 
@@ -121,6 +121,7 @@ class Windows(QMainWindow, Ui_MainWindow):
         :param msg:
         :return:
         """
+        self.log.info_out('串口消息：{}'.format(msg))
         self.recv_signal.emit(msg)
 
     def time_task_callback(self,task_name):
