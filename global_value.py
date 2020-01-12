@@ -7,7 +7,7 @@
 """
 
 #these const value is the time of a day for attendacing
-MORINING_START_TIME = "08:15"
+MORINING_START_TIME = "01:30"
 MORINING_ATTENDANCE_TIME = "08:30"
 MORINING_END_TIME ="12:00"
 

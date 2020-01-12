@@ -40,7 +40,7 @@ class TaskSchedule(threading.Thread):
         :return:
         """
         schedule.every().day.at(time).do(target,task_name)
-        self.task_list.append(task_name,)
+        self.task_list.append(task_name)
     def run(self):
         while True:
             if self.stop_signal:
