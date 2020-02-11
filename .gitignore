@@ -1,7 +1,8 @@
 .idea
 __pycache__
 UI/__pycache__
-dist
-build
+dist/
+build/
 *.xls
 *.xlsx
+*.spec
