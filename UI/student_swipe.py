@@ -53,7 +53,7 @@ class StudentSwipe(QWidget,Ui_Stu_Swipe):
         # self.check_late()
         now_localtime=time.localtime()
         now_time = time.strftime("%H:%M",now_localtime )
-        if not ((now_time < MORINING_ATTENDANCE_TIME )or (now_time >AFTERNOON_START_TIME and now_time <AFTERNOON_ATTENDANCE_TIME) or\
+        if not ((now_time >MORINING_START_TIME and now_time < MORINING_ATTENDANCE_TIME )or (now_time >AFTERNOON_START_TIME and now_time <AFTERNOON_ATTENDANCE_TIME) or\
             (now_time >EVENING_START_TIME and now_time <EVENING_ATTENDANCE_TIME)):
             self.textBrowser.append('打卡时间已过！你已迟到！')
             return

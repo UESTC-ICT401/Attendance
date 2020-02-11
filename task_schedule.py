@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 
 """
@@ -47,7 +48,5 @@ class TaskSchedule(threading.Thread):
                 return
             schedule.run_pending()
             time.sleep(5)
-
-
 
 

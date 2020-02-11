@@ -8,8 +8,9 @@
 
 import threading
 import time
-import pymysql
+
 import xlwt
+import pymysql
 from student import Student
 from course import Course
 
